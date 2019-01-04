@@ -1,0 +1,333 @@
+<div ng-controller="BursBasvuruKisiselCtrl" ng-if="isLoggedIn && siteStatus == true && userStatus == true">
+    <ng-include src="'bursBasvuru/nav.html'"></ng-include>
+    <div class="row">
+        <div class="col-md-12 col-sm-12 col-lg-12">
+            <div class="container">
+                <div id="smartwizard" style="background-color: #FFFFFF;">
+                    <div class="text-center" ng-include src="'bursBasvuru/steps.html'"></div>
+                    <div class="container">
+                        <form id="step-1-form" name="kisiselForm" class="mt-2" ng-submit="kisiselForm.$valid && kisiselSbmt($event)">
+                            <div class="row">
+                                <div class="col-sm-12 col-md-12 col-lg-12 mb-3">
+                                    <h2 class="text-divider"><span class="text-white">Nüfus İle İlgili Bilgiler</span></h2>
+                                </div>
+                                <div class="col-sm-12 col-md-12 col-lg-6">
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text" id="dogum-tarih-addon">Doğum Tarihi</span>
+                                        </div>
+                                        <input data-toggle="datepicker" type="text" class="form-control" ng-class="{'is-invalid': kisiselFormError.BirthDate}"
+                                               placeholder="Örn: 04.15.1998"
+                                               aria-label="Doğum Tarihi" aria-describedby="dogum-tarih-addon" name="BirthDate" required
+                                               ng-model="kisiselFormData.BirthDate" ng-required="true">
+                                        <div ng-if="kisiselFormError.BirthDate" ng-repeat="err in kisiselFormError.BirthDate" class="invalid-feedback">
+                                            {{err}}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 col-md-12 col-lg-6">
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text" id="dogum-yer-addon">Doğum Yeri</span>
+                                        </div>
+                                        <input type="text" class="form-control" ng-class="{'is-invalid': kisiselFormError.BirthPlace}" placeholder="Örn: Beykoz"
+                                               aria-label="Doğum Yeri"
+                                               aria-describedby="dogum-yer-addon" name="BirthPlace" required
+                                               ng-model="kisiselFormData.BirthPlace" ng-required="true">
+                                        <div ng-if="kisiselFormError.BirthPlace" ng-repeat="err in kisiselFormError.BirthPlace" class="invalid-feedback">
+                                            {{err}}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 col-md-12 col-lg-6">
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text" id="uyruk-addon">Uyruk</span>
+                                        </div>
+                                        <input type="text" class="form-control" ng-class="{'is-invalid': kisiselFormError.Nationality}" placeholder="Örn: Türkiye"
+                                               aria-label="Uyruk"
+                                               aria-describedby="uyruk-addon" name="Nationality" required
+                                               ng-model="kisiselFormData.Nationality" ng-required="true">
+                                        <div ng-if="kisiselFormError.Nationality" ng-repeat="err in kisiselFormError.Nationality" class="invalid-feedback">
+                                            {{err}}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 col-md-12 col-lg-6">
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <label class="input-group-text" for="cinsiyet">Cinsiyet</label>
+                                        </div>
+                                        <select class="selectpicker form-control" ng-class="{'is-invalid': kisiselFormError.Gender}" id="cinsiyet" name="Gender" required
+                                                ng-model="kisiselFormData.Gender" ng-required="true">
+                                            <option value="Erkek">Erkek</option>
+                                            <option value="Kadın">Kadın</option>
+                                        </select>
+                                        <div ng-if="kisiselFormError.Gender" ng-repeat="err in kisiselFormError.Gender" class="invalid-feedback">
+                                            {{err}}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 col-md-12 col-lg-6">
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <label class="input-group-text" for="nufusaKayitliIl">Nüfusa Kayıtlı İl</label>
+                                        </div>
+                                        <select class="selectpicker form-control" data-live-search="true" ng-class="{'is-invalid': kisiselFormError.IdentityCity}"
+                                                id="nufusaKayitliIl" name="IdentityCity" required ng-click="globs.getCities()"
+                                                ng-model="kisiselFormData.IdentityCity" ng-required="true"
+                                                ng-change="globs.setTowns(kisiselFormData.IdentityCity, 'first')">
+                                            <option ng-repeat="city in globs.getCities()" value="{{city.CityId}}"
+                                                    ng-value="city.CityId" data-tokens="{{city.CityName}}">
+                                                {{city.CityName}}
+                                            </option>
+                                        </select>
+                                        <div ng-if="kisiselFormError.IdentityCity" ng-repeat="err in kisiselFormError.IdentityCity" class="invalid-feedback">
+                                            {{err}}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 col-md-12 col-lg-6">
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <label class="input-group-text" for="nufusaKayitliIlce">Nüfusa Kayıtlı İlçe</label>
+                                        </div>
+                                        <select class="selectpicker form-control" data-live-search="true"
+                                                ng-class="{'is-invalid': kisiselFormError.identityTownErr}"
+                                                id="nufusaKayitliIlce" name="IdentityTown" required
+                                                ng-model="kisiselFormData.IdentityTown" ng-required="true">
+                                            <option ng-repeat="town in globs.getTownsFirst()" value="{{town.TownId}}"
+                                                    ng-value="town.TownId" data-tokens="{{town.TownName}}">{{town.TownName}}
+                                            </option>
+                                        </select>
+                                        <div ng-if="kisiselFormError.IdentityTown" ng-repeat="err in kisiselFormError.IdentityTown" class="invalid-feedback">
+                                            {{err}}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 col-md-12 col-lg-6">
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <label class="input-group-text" for="medeniDurum">Medeni Durum</label>
+                                        </div>
+                                        <select class="selectpicker form-control" ng-class="{'is-invalid': kisiselFormError.MaritalStatus}"
+                                                id="medeniDurum" name="MaritalStatus" required
+                                                ng-model="kisiselFormData.MaritalStatus" ng-required="true">
+                                            <option value="Evli">Evli</option>
+                                            <option value="Bekar">Bekar</option>
+                                        </select>
+                                        <div ng-if="kisiselFormError.MaritalStatus" ng-repeat="err in kisiselFormError.MaritalStatus" class="invalid-feedback">
+                                            {{err}}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 col-md-12 col-lg-6">
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text" id="ikametTel-addon">İkamet Adresi Telefon</span>
+                                        </div>
+                                        <input type="text" class="form-control" ng-class="{'is-invalid': kisiselFormError.StdAddressTel}" placeholder="Örn: (216)-693-12-28"
+                                               aria-label="İkamet Adres Telefon"
+                                               aria-describedby="ikametTel-addon" name="StdAddressTel" mask="(999)-999-99-99" clean="true"
+                                               ng-model="kisiselFormData.StdAddressTel">
+                                        <div class="input-group-append">
+                       <span class="input-group-text alert-success"
+                             data-toggle="tooltip"
+                             data-placement="top"
+                             title="Yok ise boş bırakınız">?</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                        <div ng-if="kisiselFormError.StdAddressTel" ng-repeat="err in kisiselFormError.StdAddressTel" class="invalid-feedback">
+                                            {{err}}
+                                        </div>
+
+                                <div class="col-sm-12 col-md-12 col-lg-6">
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <label class="input-group-text" for="ikametIl">İkamet Ettiğiniz İl</label>
+                                        </div>
+                                        <select class="selectpicker form-control" data-live-search="true" ng-class="{'is-invalid': kisiselFormError.StdAddressCity}"
+                                                id="ikametIl" name="StdAddressCity" required
+                                                ng-model="kisiselFormData.StdAddressCity" ng-required="true"
+                                                ng-change="globs.setTowns(kisiselFormData.StdAddressCity, 'second')">
+                                            <option ng-repeat="city in globs.getCities()" value="{{city.CityId}}"
+                                                    ng-value="city.CityId" data-tokens="{{city.CityName}}">
+                                                {{city.CityName}}
+                                            </option>
+                                        </select>
+                                        <div ng-if="kisiselFormError.StdAddressCity" ng-repeat="err in kisiselFormError.StdAddressCity" class="invalid-feedback">
+                                            {{err}}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 col-md-12 col-lg-6">
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <label class="input-group-text" for="ikametIlce">İkamet Ettiğiniz İlçe</label>
+                                        </div>
+                                        <select class="selectpicker form-control" data-live-search="true" ng-class="{'is-invalid': kisiselFormError.StdAddressTown}"
+                                                id="ikametIlce" name="StdAddressTown" required
+                                                ng-model="kisiselFormData.StdAddressTown" ng-required="true">
+                                            <option ng-repeat="town in globs.getTownsSecond()" value="{{town.TownId}}"
+                                                    ng-value="town.TownId" data-tokens="{{town.TownName}}">
+                                                {{town.TownName}}
+                                            </option>
+                                        </select>
+                                        <div ng-if="kisiselFormError.StdAddressTown" ng-repeat="err in kisiselFormError.StdAddressTown" class="invalid-feedback">
+                                            {{err}}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 col-md-12 col-lg-6">
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">İkamet Ettiğiniz Adres</span>
+                                        </div>
+                                        <textarea class="form-control" ng-class="{'is-invalid': kisiselFormError.StdAddress}"
+                                                  placeholder="Örn: Kavacık Mahalllesi Öğe Sokak No: 20 D:9"
+                                                  aria-label="İkamet Adres" name="StdAddress" required
+                                                  ng-model="kisiselFormData.StdAddress" ng-required="true"></textarea>
+                                        <div ng-if="kisiselFormError.StdAddress" ng-repeat="err in kisiselFormError.StdAddress" class="invalid-feedback">
+                                            {{err}}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 col-md-12 col-lg-12 mb-3">
+                                    <h2 class="text-divider"><span class="text-white">Referans Bilgileri</span></h2>
+                                </div>
+                                <div class="col-sm-12 col-md-12 col-lg-12">
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text" id="referans-addon">Referans Olan kişinin Adı Soyadı</span>
+                                        </div>
+                                        <input type="text" class="form-control" ng-class="{'is-invalid': kisiselFormError.Referans}"
+                                               placeholder="Örn: Mustafa Keser." aria-label="Referans"
+                                               aria-describedby="referans-addon" name="Referans"
+                                               ng-model="kisiselFormData.Referans">
+                                        <div class="input-group-append">
+                       <span class="input-group-text alert-success"
+                             data-toggle="tooltip"
+                             data-placement="top"
+                             title="Yok ise boş bırakınız">?</span>
+                                        </div>
+                                        <div ng-if="kisiselFormError.Referans" ng-repeat="err in kisiselFormError.Referans" class="invalid-feedback">
+                                            {{err}}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 col-md-12 col-lg-12 mb-3">
+                                    <h2 class="text-divider"><span class="text-white">Diğer Bilgiler</span></h2>
+                                </div>
+                                <div class="col-sm-12 col-md-12 col-lg-6">
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text" id="bedenselEngel-addon">Bedensel Bir Engeliniz Var Mı ?</span>
+                                        </div>
+                                        <input type="text" class="form-control" ng-class="{'is-invalid': kisiselFormError.HandikapPerson}"
+                                               placeholder="Örn: İşitme Engelliyim." aria-label="Bedensel Engel"
+                                               aria-describedby="bedenselEngel-addon" name="HandikapPerson"
+                                               ng-model="kisiselFormData.HandikapPerson">
+                                        <div class="input-group-append">
+                       <span class="input-group-text alert-success"
+                             data-toggle="tooltip"
+                             data-placement="top"
+                             title="Yok ise boş bırakınız">?</span>
+                                        </div>
+                                        <div ng-if="kisiselFormError.HandikapPerson" ng-repeat="err in kisiselFormError.HandikapPerson" class="invalid-feedback">
+                                            {{err}}
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 col-md-12 col-lg-6">
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text" id="bedenselEngelYuzde-addon">Engellilik Oranı</span>
+                                        </div>
+                                        <input type="number" class="form-control" ng-class="{'is-invalid': kisiselFormError.HandikapPercentage}"
+                                               placeholder="Örn: 30" aria-label="Bedensel Engel Yüzde"
+                                               aria-describedby="bedenselEngelYuzde-addon" name="HandikapPercentage"
+                                               ng-model="kisiselFormData.HandikapPercentage">
+                                        <div class="input-group-append">
+                     <span class="input-group-text alert-success"
+                           data-toggle="tooltip"
+                           data-placement="top"
+                           title="Yok ise boş bırakınız">?</span>
+                                        </div>
+                                        <div ng-if="kisiselFormError.HandikapPercentage" ng-repeat="err in kisiselFormError.HandikapPercentage" class="invalid-feedback">
+                                            {{err}}
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 col-md-12 col-lg-6">
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">Herhangi Bir Özel Durumunuz Var Mı ?</span>
+                                        </div>
+                                        <textarea class="form-control" ng-class="{'is-invalid': kisiselFormError.SpecialStatus}"
+                                                  placeholder="Örn: Aile bireylerim vefat etti."
+                                                  aria-label="Özel Durum" name="SpecialStatus"
+                                                  ng-model="kisiselFormData.SpecialStatus"></textarea>
+                                        <div class="input-group-append">
+                      <span class="input-group-text alert-success"
+                            data-toggle="tooltip"
+                            data-placement="top"
+                            title="Yok ise boş bırakınız">?</span>
+                                        </div>
+                                        <div ng-if="kisiselFormError.SpecialStatus" ng-repeat="err in kisiselFormError.SpecialStatus" class="invalid-feedback">
+                                            {{err}}
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 col-md-12 col-lg-12">
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <div class="input-group-text">
+                                                <input type="checkbox" name="ContractIsAccepted" required ng-model="kisiselFormData.ContractIsAccepted" ng-required="true">
+                                            </div>
+                                        </div>
+                                        <textarea ng-class="{'is-invalid': kisiselFormError.ContractIsAccepted}"
+                                                  style="resize: none; font-size: small;"
+                                                  disabled
+                                                  class="form-control small"
+                                        >Bu formda verdiğim bütün bilgilerin doğruluğunu yanlış, eksik veya yalan beyan verdiğim taktirde hakkımda yapılacak her türlü işlemin sorumluluğunu kabul ediyor ve bursumun derhal kesileceğini biliyorum.</textarea>
+                                        <div ng-if="kisiselFormError.ContractIsAccepted" ng-repeat="err in kisiselFormError.ContractIsAccepted" class="invalid-feedback">
+                                            {{err}}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 col-md-12 col-lg-12">
+                                    <div class="float-right mb-3">
+                                        <button ng-if="!recordIsExist" ng-disabled="kisiselForm.$invalid" type="submit" class="btn btn-success">Devam Et</button>
+                                        <button ng-if="recordIsExist" ng-disabled="kisiselForm.$invalid" type="submit" class="btn btn-info">Güncelle</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(function () {
+        $('[data-toggle="datepicker"]').datepicker({
+            autoHide: true,
+            zIndex: 2048,
+            format: 'mm.dd.yyyy',
+            language: 'tr-TR'
+        });
+        $('#sidebarCollapse').on('click', function () {
+            $('#sidebar').toggleClass('active');
+        });
+        $('[data-toggle="tooltip"]').tooltip();
+        $('.selectpicker').selectpicker();
+        $('select').change(function () {
+            $('.selectpicker').selectpicker('refresh');
+        })
+    })
+</script>

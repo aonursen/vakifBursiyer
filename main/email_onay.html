@@ -1,0 +1,31 @@
+<div ng-controller="EmailOnayCtrl">
+  <ng-include src="'main/navbar.html'"></ng-include>
+  <div class="row marg-top-20 hakkimizda">
+    <div class="col-md-12 col-sm-12 col-lg-10 offset-lg-1">
+      <div class="jumbotron jumbotron-fluid">
+        <div class="container">
+          <div class="text-center">
+            <div ng-if="result == 'success'">
+              <img src="../lib/images/check.png" width="240">
+              <h4>Kaydın başarılı bir şekilde tamamlandı.</h4> <br>
+              <h6>Artık sisteme giriş yaparak burs başvurunu yapabilirsin.</h6> <br>
+            </div>
+            <div ng-if="result == 'failed'">
+              <img src="../lib/images/failed.png" width="240">
+              <h4 ng-if="msg == 'yok'">Lütfen önde bursiyer hesabı oluşturunuz.</h4> <br>
+              <h4 ng-if="msg == 'aktif'">Bu hesap daha önce aktif edilmiş.</h4> <br>
+              <h4 ng-if="msg == 'zaman'">Bu link zaman aşımına uğradığı için e-posta adresinize tekrar onay linki gönderilmiştir.</h4> <br>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#sidebarCollapse').on('click', function () {
+            $('#sidebar').toggleClass('active');
+        });
+    });
+</script>

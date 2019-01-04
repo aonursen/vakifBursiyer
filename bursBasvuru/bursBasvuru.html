@@ -1,0 +1,50 @@
+<div ng-controller="BursBasvuruKisiselCtrl" ng-if="isLoggedIn">
+    <nav class="navbar navbar-expand-lg navbar-transparent">
+        <div class="container-fluid">
+            <button type="button" id="sidebarCollapse" class="btn btn-info">
+                <i class="fas fa-align-left"></i>
+            </button>
+            <button class="btn btn-dark d-inline-block d-lg-none ml-auto" type="button" data-toggle="collapse"
+                    data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                    aria-label="Toggle navigation">
+                <i class="fas fa-align-justify"></i>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="nav navbar-nav ml-auto">
+                    <li><a class="btn btn-info text-white mr-1" href="#!"><i class="fa fa-backward"></i> Geri Dön</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="row">
+        <div class="col-md-12 col-sm-12 col-lg-12">
+            <div class="container">
+                <div id="smartwizard" style="background-color: #FFFFFF;">
+                    <div class="text-center">
+                        <button type="button" class="btn btn-arrow-right" ng-class="(currentStep == 1) ? ['btn-success'] : ['btn-dark']">Kişisel Bilgiler</button>
+                        <button type="button" class="btn btn-arrow-right" ng-class="(currentStep == 2) ? ['btn-success'] : ['btn-dark']">Eğitim Bilgileri</button>
+                        <button type="button" class="btn btn-arrow-right" ng-class="(currentStep == 3) ? ['btn-success'] : ['btn-dark']">Aile Bilgileri</button>
+                        <button type="button" class="btn btn-arrow-right" ng-class="(currentStep == 4) ? ['btn-success'] : ['btn-dark']">Mali Bilgiler</button>
+                        <button type="button" class="btn btn-arrow-right" ng-class="(currentStep == 5) ? ['btn-success'] : ['btn-dark']">Belgeler</button>
+                    </div>
+                    <div class="container">
+                        <!--<div id="step-1" ng-if="currentStep == 1" ng-include src="'bursBasvuru/kisisel.html'" class=""></div>-->
+                        <!--<div id="step-2" ng-if="currentStep == 2" ng-include src="'bursBasvuru/egitim.html'" class=""></div>-->
+                        <!--<div id="step-3" ng-if="currentStep == 3" ng-include src="'bursBasvuru/aile.html'" class=""></div>-->
+                        <!--<div id="step-4" ng-if="currentStep == 4" ng-include src="'bursBasvuru/mali.html'" class=""></div>-->
+                        <!--<div id="step-5" ng-if="currentStep == 5" ng-include src="'bursBasvuru/belgeler.html'" class=""></div>-->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#sidebarCollapse').on('click', function () {
+            $('#sidebar').toggleClass('active');
+        });
+        $('[data-toggle="tooltip"]').tooltip();
+    });
+</script>

@@ -1,0 +1,326 @@
+<div ng-controller="BursBasvuruEgitimCtrl" ng-if="isLoggedIn && siteStatus == true && userStatus == true">
+    <ng-include src="'bursBasvuru/nav.html'"></ng-include>
+    <div class="row">
+        <div class="col-md-12 col-sm-12 col-lg-12">
+            <div class="container">
+                <div id="smartwizard" style="background-color: #FFFFFF;">
+                    <div class="text-center" ng-include src="'bursBasvuru/steps.html'"></div>
+                    <div class="container">
+                        <form id="step-2-form" name="egitimForm" class="mt-2" ng-submit="egitimForm.$valid && egitimSbmt($event)">
+                            <div class="row">
+                                <div class="col-sm-12 col-md-12 col-lg-12 mb-3">
+                                    <h2 class="text-divider"><span class="text-white">Okul İle İle İlgili Bilgiler</span></h2>
+                                </div>
+                                <div class="col-sm-12 col-md-12 col-lg-12">
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text" id="son-mezun-addon">Son Mezun Olduğunuz Okul</span>
+                                        </div>
+                                        <input type="text" name="LastGraduated" class="form-control" ng-class="{'is-invalid': egitimFormError.LastGraduated}"
+                                               placeholder="Örn: Barbaro Hayrettin Paşa E.M.L"
+                                               aria-label="Son Mezun Olduğunuz Okul"
+                                               aria-describedby="son-mezun-addon" required
+                                               ng-model="egitimFormData.LastGraduated" ng-required="true">
+                                        <div ng-if="egitimFormError.LastGraduated" ng-repeat="err in egitimFormError.LastGraduated" class="invalid-feedback">
+                                            {{err}}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 col-md-12 col-lg-6">
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text" id="son-mezun-yil-addon">Mezun Olunan Yıl</span>
+                                        </div>
+                                        <input type="number" name="GraduatedYear" class="form-control" ng-class="{'is-invalid': egitimFormError.GraduatedYear}"
+                                               placeholder="Örn: 1991"
+                                               aria-label="Mezun Olunan Yıl"
+                                               aria-describedby="son-mezun-yil-addon" required
+                                               ng-model="egitimFormData.GraduatedYear" ng-required="true">
+                                        <div ng-if="egitimFormError.GraduatedYear" ng-repeat="err in egitimFormError.GraduatedYear" class="invalid-feedback">
+                                            {{err}}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 col-md-12 col-lg-6">
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text" id="son-mezun-puan-addon">Mezun Olunan Diploma Puanı</span>
+                                        </div>
+                                        <input type="text" name="GraduatedDegree" class="form-control"
+                                               ng-class="{'is-invalid': egitimFormError.GraduatedDegree}"
+                                               placeholder="Örn: 3.40"
+                                               aria-label="Mezun Olunan Diploma Puanı"
+                                               aria-describedby="son-mezun-puan-addon" required
+                                               ng-model="egitimFormData.GraduatedDegree" ng-required="true" mask="4.99">
+                                        <div ng-if="egitimFormError.GraduatedDegree"
+                                             ng-repeat="err in egitimFormError.GraduatedDegree"
+                                             class="invalid-feedback">
+                                            {{err}}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 col-md-12 col-lg-12 mb-3">
+                                    <h2 class="text-divider"><span class="text-white">LYS İle İlgili Bilgiler</span></h2>
+                                </div>
+                                <div class="col-sm-12 col-md-12 col-lg-6">
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text" id="lys-sira-addon">LYS Sırası</span>
+                                        </div>
+                                        <input type="number" name="LYSResultRank" class="form-control" ng-class="{'is-invalid': egitimFormError.LYSResultRank}"
+                                               placeholder="Örn: 980"
+                                               aria-label="LYS Sırası"
+                                               aria-describedby="lys-sira-addon" required
+                                               ng-model="egitimFormData.LYSResultRank" ng-required="true">
+                                        <div ng-if="egitimFormError.LYSResultRank"
+                                             ng-repeat="err in egitimFormError.LYSResultRank"
+                                             class="invalid-feedback">
+                                            {{err}}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 col-md-12 col-lg-6">
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text" id="lys-puan-addon">LYS Puanı</span>
+                                        </div>
+                                        <input type="text" name="LYSResultScore" class="form-control" ng-class="{'is-invalid': egitimFormError.LYSResultScore}"
+                                               placeholder="Örn: 349.762"
+                                               aria-label="LYS Puanı"
+                                               aria-describedby="lys-puan-addon" required
+                                               ng-model="egitimFormData.LYSResultScore"
+                                               ng-required="true" mask="999.999">
+                                        <div ng-if="egitimFormError.LYSResultScore"
+                                             ng-repeat="err in egitimFormError.LYSResultScore"
+                                             class="invalid-feedback">
+                                            {{err}}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 col-md-12 col-lg-12 mb-3">
+                                    <h2 class="text-divider"><span class="text-white">Üniversite İle İlgili Bilgiler</span></h2>
+                                </div>
+                                <div class="col-sm-12 col-md-12 col-lg-4">
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <label class="input-group-text" for="universite">Üniversite</label>
+                                        </div>
+                                        <select class="selectpicker form-control" ng-class="{'is-invalid': egitimFormError.UniversityId}" data-live-search="true"
+                                                name="UniversityId" id="universite"
+                                                required ng-required="true"
+                                                ng-model="egitimFormData.UniversityId"
+                                                ng-change="globs.setFaculties(egitimFormData.UniversityId)">
+                                            <option ng-repeat="university in globs.getUniversities()" value="{{university.UniversityId}}"
+                                                    ng-value="university.UniversityId" data-tokens="{{university.UniversityName}}">
+                                                {{university.UniversityName}}
+                                            </option>
+                                        </select>
+                                        <div ng-if="egitimFormError.UniversityId"
+                                             ng-repeat="err in egitimFormError.UniversityId"
+                                             class="invalid-feedback">
+                                            {{err}}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 col-md-12 col-lg-4">
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <label class="input-group-text" for="universiteFakulte">Fakülte</label>
+                                        </div>
+                                        <select class="selectpicker form-control" ng-class="{'is-invalid': egitimFormError.UniversityFaculty}"
+                                                data-live-search="true"
+                                                name="UniversityFaculty" id="universiteFakulte"
+                                                required ng-required="true"
+                                                ng-model="egitimFormData.UniversityFaculty"
+                                                ng-change="globs.setDepartments(egitimFormData.UniversityFaculty)">
+                                            <option ng-repeat="faculty in globs.getFaculties()" value="{{faculty.FacultyId}}"
+                                                    ng-value="faculty.FacultyId" data-tokens="{{faculty.FacultyName}}">
+                                                {{faculty.FacultyName}}
+                                            </option>
+                                        </select>
+                                        <div ng-if="egitimFormError.UniversityFaculty"
+                                             ng-repeat="err in egitimFormError.UniversityFaculty"
+                                             class="invalid-feedback">
+                                            {{err}}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 col-md-12 col-lg-4">
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <label class="input-group-text" for="universiteBolum">Bölüm</label>
+                                        </div>
+                                        <select class="selectpicker form-control" ng-class="{'is-invalid': egitimFormError.UniversityDepartment}"
+                                                data-live-search="true" name="UniversityDepartment" id="universiteBolum"
+                                                required ng-required="true"
+                                                ng-model="egitimFormData.UniversityDepartment">
+                                            <option ng-repeat="department in globs.getDepartments()" value="{{department.DepartmentId}}"
+                                                    ng-value="department.DepartmentId" data-tokens="{{department.DepartmentName}}">
+                                                {{department.DepartmentName}}
+                                            </option>
+                                        </select>
+                                        <div ng-if="egitimFormError.UniversityDepartment"
+                                             ng-repeat="err in egitimFormError.UniversityDepartment"
+                                             class="invalid-feedback">
+                                            {{err}}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 col-md-12 col-lg-4">
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <label class="input-group-text" for="universite-sinif">Sınıf</label>
+                                        </div>
+                                        <select class="selectpicker form-control" ng-class="{'is-invalid': egitimFormError.UniversityClass}"
+                                                name="UniversityClass" id="universite-sinif"
+                                                required ng-required="true"
+                                                ng-model="egitimFormData.UniversityClass">
+                                            <option value="Hazırlık">Hazırlık</option>
+                                            <option value="1. Sınıf">1. Sınıf</option>
+                                            <option value="2. Sınıf">2. Sınıf</option>
+                                            <option value="3. Sınıf">3. Sınıf</option>
+                                            <option value="4. Sınıf">4. Sınıf</option>
+                                            <option value="5. Sınıf">5. Sınıf</option>
+                                            <option value="6. Sınıf">6. Sınıf</option>
+                                        </select>
+                                        <div ng-if="egitimFormError.UniversityClass"
+                                             ng-repeat="err in egitimFormError.UniversityClass"
+                                             class="invalid-feedback">
+                                            {{err}}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 col-md-12 col-lg-4">
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <label class="input-group-text" for="egitimSure">Eğitim Süresi</label>
+                                        </div>
+                                        <select class="selectpicker form-control" ng-class="{'is-invalid': egitimFormError.EducationTime}"
+                                                name="EducationTime"
+                                                id="egitimSure" required
+                                                ng-model="egitimFormData.EducationTime"
+                                                ng-required="true">
+                                            <option value="ÖnLisans">Ön Lisans</option>
+                                            <option value="Lisans">Lisans</option>
+                                        </select>
+                                        <div ng-if="egitimFormError.EducationTime"
+                                             ng-repeat="err in egitimFormError.EducationTime"
+                                             class="invalid-feedback">
+                                            {{err}}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 col-md-12 col-lg-4">
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <label class="input-group-text" for="ogretimTipi">Öğretim Tipi</label>
+                                        </div>
+                                        <select class="selectpicker form-control" ng-class="{'is-invalid': egitimFormError.EducationType}"
+                                                name="EducationType"
+                                                id="ogretimTipi" required
+                                                ng-model="egitimFormData.EducationType"
+                                                ng-required="true">
+                                            <option value="1. Öğretim">1. Öğretim</option>
+                                            <option value="2. Öğretim">2. Öğretim</option>
+                                        </select>
+                                        <div ng-if="egitimFormError.EducationType"
+                                             ng-repeat="err in egitimFormError.EducationType"
+                                             class="invalid-feedback">
+                                            {{err}}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 col-md-12 col-lg-6">
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <label class="input-group-text" for="universiteIl">Üniversite'nin Bağlı Olduğu İl</label>
+                                        </div>
+                                        <select class="selectpicker form-control" ng-class="{'is-invalid': egitimFormError.UniversityCity}"
+                                                data-live-search="true"
+                                                name="UniversityCity"
+                                                id="universiteIl" required
+                                                ng-model="egitimFormData.UniversityCity"
+                                                ng-required="true"
+                                                ng-change="globs.setTowns(egitimFormData.UniversityCity, 'first')">
+                                            <option ng-repeat="city in globs.getCities()" value="{{city.CityId}}"
+                                                    ng-value="city.CityId" data-tokens="{{city.CityName}}">
+                                                {{city.CityName}}
+                                            </option>
+                                        </select>
+                                        <div ng-if="egitimFormError.UniversityCity"
+                                             ng-repeat="err in egitimFormError.UniversityCity"
+                                             class="invalid-feedback">
+                                            {{err}}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 col-md-12 col-lg-6">
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <label class="input-group-text" for="universiteIlce">Üniversite'nin Bağlı Olduğu İlçe</label>
+                                        </div>
+                                        <select class="selectpicker form-control" ng-class="{'is-invalid': egitimFormError.UniversityTown}"
+                                                data-live-search="true"
+                                                name="UniversityTown"
+                                                id="universiteIlce" required ng-required="true"
+                                                ng-model="egitimFormData.UniversityTown">
+                                            <option ng-repeat="town in globs.getTownsFirst()" value="{{town.TownId}}"
+                                                    ng-value="town.TownId" data-tokens="{{town.TownName}}">
+                                                {{town.TownName}}
+                                            </option>
+                                        </select>
+                                        <div ng-if="egitimFormError.UniversityTown"
+                                             ng-repeat="err in egitimFormError.UniversityTown"
+                                             class="invalid-feedback">
+                                            {{err}}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 col-md-12 col-lg-12">
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <div class="input-group-text">
+                                                <input name="ContractIsAccepted"  ng-class="{'is-invalid': egitimFormError.ContractIsAccepted}"
+                                                       type="checkbox" required
+                                                       ng-required="true"
+                                                       ng-model="egitimFormData.ContractIsAccepted">
+                                                <div ng-if="egitimFormError.ContractIsAccepted"
+                                                     ng-repeat="err in egitimFormError.ContractIsAccepted"
+                                                     class="invalid-feedback">
+                                                    {{err}}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <textarea
+                                                style="resize: none; font-size: small;"
+                                                disabled
+                                                class="form-control small"
+                                        >Bu formda verdiğim bütün bilgilerin doğruluğunu yanlış, eksik veya yalan beyan verdiğim taktirde hakkımda yapılacak her türlü işlemin sorumluluğunu kabul ediyor ve bursumun derhal kesileceğini biliyorum.</textarea>
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 col-md-12 col-lg-12">
+                                    <div class="float-right mb-3">
+                                        <button ng-if="!recordIsExist" ng-disabled="egitimForm.$invalid" type="submit" class="btn btn-success">Devam Et</button>
+                                        <button ng-if="recordIsExist" ng-disabled="egitimForm.$invalid" type="submit" class="btn btn-info">Güncelle</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(function () {
+        $('#sidebarCollapse').on('click', function () {
+            $('#sidebar').toggleClass('active');
+        });
+        $('[data-toggle="tooltip"]').tooltip();
+        $('.selectpicker').selectpicker();
+        $('select').change(function () {
+            $('.selectpicker').selectpicker('refresh');
+        })
+    })
+</script>

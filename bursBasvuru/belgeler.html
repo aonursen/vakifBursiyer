@@ -1,0 +1,427 @@
+<div ng-controller="BursBasvuruBelgelerCtrl" ng-if="isLoggedIn && siteStatus == true && userStatus == true">
+  <ng-include src="'bursBasvuru/nav.html'"></ng-include>
+  <div class="row">
+    <div class="col-md-12 col-sm-12 col-lg-12">
+      <div class="container">
+        <div id="smartwizard" style="background-color: #FFFFFF;">
+          <div class="text-center" ng-include src="'bursBasvuru/steps.html'"></div>
+          <div class="container">
+            <form id="step-5-form" name="belgeForm" ng-submit="belgeForm.$valid && belgeSbmt($event)" class="mt-2">
+              <div class="row">
+                <div class="col-sm-12 col-md-12 col-lg-12 mb-3">
+                  <h2 class="text-divider"><span class="text-white">Kişisel belgeler</span></h2>
+                </div>
+                <div class="col-sm-12 col-md-12 col-lg-12">
+                  <div id="UserAvatar_Prog"
+                       class="progress mb-3" style="height: calc(2.25rem + 2px); display: none;">
+                    <div class="progress-bar progress-bar-striped progress-bar-animated"
+                         role="progressbar"
+                         aria-valuenow="{{uploadDocProgress.UserAvatar}}"
+                         aria-valuemin="0"
+                         aria-valuemax="100"
+                         style="width: {{uploadDocProgress.UserAvatar}}%;"></div>
+                  </div>
+                  <div id="UserAvatar_Inp" class="input-group mb-3">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text" id="ikametTel-addon">Vesikalık Fotoğraf</span>
+                    </div>
+                    <input type="file" class="form-control" ng-class="{'is-invalid': belgeFormError.UserAvatar}"
+                           ngf-select ngf-pattern="'image/png, image/jpg, image/jpeg'"
+                           ngf-accept="'image/png, image/jpg, image/jpeg'"
+                           ngf-max-size="500KB"
+                           name="UserAvatar"
+                           id="userAvatar" lang="tr"
+                           fileread="belgeFormData.UserAvatar">
+                    <div class="input-group-append">
+                      <button type="button" class="btn btn-info"
+                              ng-click="upload(belgeFormData.UserAvatar, 'UserAvatar', $event)"
+                              ng-disabled="!belgeFormData.UserAvatar || !userCanUpload"
+                              data-toggle="tooltip"
+                              data-placement="top"
+                              title="Dosyayı Yükle">
+                        Yükle
+                      </button>
+                      <button type="button" class="btn btn-success viewBtn"
+                              data-loading-text="<i class='fa fa-circle-o-notch fa-spin'></i>"
+                              data-toggle="tooltip"
+                              data-placement="top"
+                              id="id_UserAvatarView"
+                              title="Dosyayı Görüntüle"
+                              ng-click="viewUploadedDoc('UserAvatar')">
+                        Görüntüle
+                      </button>
+                    </div>
+                    <div ng-if="belgeFormError.UserAvatar"
+                         ng-repeat="err in belgeFormError.UserAvatar"
+                         class="invalid-feedback">
+                      {{err}}
+                    </div>
+                  </div>
+                </div>
+                <div class="col-sm-12 col-md-12 col-lg-12">
+                  <div id="IdentityCardDoc_Prog"
+                       class="progress mb-3" style="height: calc(2.25rem + 2px); display: none;">
+                    <div class="progress-bar progress-bar-striped progress-bar-animated"
+                         role="progressbar"
+                         aria-valuenow="{{uploadDocProgress.IdentityCardDoc}}"
+                         aria-valuemin="0"
+                         aria-valuemax="100"
+                         style="width: {{uploadDocProgress.IdentityCardDoc}}%;"></div>
+                  </div>
+                  <div id="IdentityCardDoc_Inp" class="input-group mb-3">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text" id="nufusCuzdani-addon">Nüfus Cüzdanı Ön - Arka</span>
+                    </div>
+                    <input type="file" class="form-control" ng-class="{'is-invalid': belgeFormError.IdentityCardDoc}"
+                           ngf-select ngf-pattern="'image/png, image/jpg, image/jpeg, application/pdf'"
+                           ngf-accept="'image/png, image/jpg, image/jpeg, application/pdf'"
+                           ngf-max-size="500KB"
+                           name="IdentityCardDoc"
+                           id="nufusCuzdani" lang="tr"
+                           fileread="belgeFormData.IdentityCardDoc">
+                    <div class="input-group-append">
+                      <button type="button" class="btn btn-info"
+                              ng-click="upload(belgeFormData.IdentityCardDoc, 'IdentityCardDoc', $event)"
+                              ng-disabled="!belgeFormData.IdentityCardDoc || !userCanUpload"
+                              data-toggle="tooltip"
+                              data-placement="top"
+                              title="Dosyayı Yükle">
+                        Yükle
+                      </button>
+                      <button type="button" class="btn btn-success viewBtn"
+                              data-loading-text="<i class='fa fa-circle-o-notch fa-spin'></i>"
+                              data-toggle="tooltip"
+                              data-placement="top"
+                              id="id_IdentityCardDocView"
+                              title="Dosyayı Görüntüle"
+                              ng-click="viewUploadedDoc('IdentityCardDoc')">
+                        Görüntüle
+                      </button>
+                    </div>
+                    <div ng-if="belgeFormError.IdentityCardDoc"
+                         ng-repeat="err in belgeFormError.IdentityCardDoc"
+                         class="invalid-feedback">
+                      {{err}}
+                    </div>
+                  </div>
+                </div>
+                <div class="col-sm-12 col-md-12 col-lg-12">
+                  <div id="VukuatliNufusKayit_Prog"
+                       class="progress mb-3" style="height: calc(2.25rem + 2px); display: none;">
+                    <div class="progress-bar progress-bar-striped progress-bar-animated"
+                         role="progressbar"
+                         aria-valuenow="{{uploadDocProgress.VukuatliNufusKayit}}"
+                         aria-valuemin="0"
+                         aria-valuemax="100"
+                         style="width: {{uploadDocProgress.VukuatliNufusKayit}}%;"></div>
+                  </div>
+                  <div id="VukuatliNufusKayit_Inp" class="input-group mb-3">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text" id="vukuatliNufusKayit-addon">Vukuatlı Nüfus Kayıt Örneği</span>
+                    </div>
+                    <input type="file" class="form-control" ng-class="{'is-invalid': belgeFormError.VukuatliNufusKayit}"
+                           ngf-select ngf-pattern="'application/pdf'"
+                           ngf-accept="'application/pdf'"
+                           ngf-max-size="500KB"
+                           name="VukuatliNufusKayit"
+                           id="vukuatliNufusKayit" lang="tr"
+                           fileread="belgeFormData.VukuatliNufusKayit">
+                    <div class="input-group-append">
+                      <button type="button" class="btn btn-info"
+                              ng-click="upload(belgeFormData.VukuatliNufusKayit, 'VukuatliNufusKayit', $event)"
+                              ng-disabled="!belgeFormData.VukuatliNufusKayit || !userCanUpload"
+                              data-toggle="tooltip"
+                              data-placement="top"
+                              title="Dosyayı Yükle">
+                        Yükle
+                      </button>
+                      <button type="button" class="btn btn-success viewBtn"
+                              data-loading-text="<i class='fa fa-circle-o-notch fa-spin'></i>"
+                              data-toggle="tooltip"
+                              data-placement="top"
+                              id="id_VukuatliNufusKayitView"
+                              title="Dosyayı Görüntüle"
+                              ng-click="viewUploadedDoc('VukuatliNufusKayit')">
+                        Görüntüle
+                      </button>
+                    </div>
+                    <div ng-if="belgeFormError.VukuatliNufusKayit"
+                         ng-repeat="err in belgeFormError.VukuatliNufusKayit"
+                         class="invalid-feedback">
+                      {{err}}
+                    </div>
+                  </div>
+                </div>
+                <div class="col-sm-12 col-md-12 col-lg-12 mb-3">
+                  <h2 class="text-divider"><span class="text-white">Eğitim ile ilgili belgeler</span></h2>
+                </div>
+                <div class="col-sm-12 col-md-12 col-lg-12">
+                  <div id="LYSResultDoc_Prog"
+                       class="progress mb-3" style="height: calc(2.25rem + 2px); display: none;">
+                    <div class="progress-bar progress-bar-striped progress-bar-animated"
+                         role="progressbar"
+                         aria-valuenow="{{uploadDocProgress.LYSResultDoc}}"
+                         aria-valuemin="0"
+                         aria-valuemax="100"
+                         style="width: {{uploadDocProgress.LYSResultDoc}}%;"></div>
+                  </div>
+                  <div id="LYSResultDoc_Inp" class="input-group mb-3">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text" id="lysSonucBelge-addon">LYS Sonuç Belgesi</span>
+                    </div>
+                    <input type="file" class="form-control" ng-class="{'is-invalid': belgeFormError.LYSResultDoc}"
+                           ngf-select ngf-pattern="'image/png, image/jpg, image/jpeg, application/pdf'"
+                           ngf-accept="'image/png, image/jpg, image/jpeg, application/pdf'"
+                           ngf-max-size="500KB"
+                           name="LYSResultDoc"
+                           id="lysSonucBelge" lang="tr"
+                           fileread="belgeFormData.LYSResultDoc">
+                    <div class="input-group-append">
+                      <button type="button" class="btn btn-info"
+                              ng-click="upload(belgeFormData.LYSResultDoc, 'LYSResultDoc', $event)"
+                              ng-disabled="!belgeFormData.LYSResultDoc || !userCanUpload"
+                              data-toggle="tooltip"
+                              data-placement="top"
+                              title="Dosyayı Yükle">
+                        Yükle
+                      </button>
+                      <button type="button" class="btn btn-success viewBtn"
+                              data-loading-text="<i class='fa fa-circle-o-notch fa-spin'></i>"
+                              data-toggle="tooltip"
+                              data-placement="top"
+                              id="id_LYSResultDocView"
+                              title="Dosyayı Görüntüle"
+                              ng-click="viewUploadedDoc('LYSResultDoc')">
+                        Görüntüle
+                      </button>
+                    </div>
+                    <div ng-if="belgeFormError.LYSResultDoc"
+                         ng-repeat="err in belgeFormError.LYSResultDoc"
+                         class="invalid-feedback">
+                      {{err}}
+                    </div>
+                  </div>
+                </div>
+                <div class="col-sm-12 col-md-12 col-lg-12">
+                  <div id="StdStatusDoc_Prog"
+                       class="progress mb-3" style="height: calc(2.25rem + 2px); display: none;">
+                    <div class="progress-bar progress-bar-striped progress-bar-animated"
+                         role="progressbar"
+                         aria-valuenow="{{uploadDocProgress.StdStatusDoc}}"
+                         aria-valuemin="0"
+                         aria-valuemax="100"
+                         style="width: {{uploadDocProgress.StdStatusDoc}}%;"></div>
+                  </div>
+                  <div id="StdStatusDoc_Inp" class="input-group mb-3">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text" id="ogrenciBelge-addon">Öğrenci Belgesi</span>
+                    </div>
+                    <input type="file" class="form-control" ng-class="{'is-invalid': belgeFormError.StdStatusDoc}"
+                           ngf-select ngf-pattern="'image/png, image/jpg, image/jpeg, application/pdf'"
+                           ngf-accept="'image/png, image/jpg, image/jpeg, application/pdf'"
+                           ngf-max-size="500KB"
+                           name="StdStatusDoc"
+                           id="ogrenciBelge" lang="tr"
+                           fileread="belgeFormData.StdStatusDoc">
+                    <div class="input-group-append">
+                      <button type="button" class="btn btn-info"
+                              ng-click="upload(belgeFormData.StdStatusDoc, 'StdStatusDoc', $event)"
+                              ng-disabled="!belgeFormData.StdStatusDoc || !userCanUpload"
+                              data-toggle="tooltip"
+                              data-placement="top"
+                              title="Dosyayı Yükle">
+                        Yükle
+                      </button>
+                      <button type="button" class="btn btn-success viewBtn"
+                              data-loading-text="<i class='fa fa-circle-o-notch fa-spin'></i>"
+                              data-toggle="tooltip"
+                              data-placement="top"
+                              id="id_StdStatusDocView"
+                              title="Dosyayı Görüntüle"
+                              ng-click="viewUploadedDoc('StdStatusDoc')">
+                        Görüntüle
+                      </button>
+                    </div>
+                    <div ng-if="belgeFormError.StdStatusDoc"
+                         ng-repeat="err in belgeFormError.StdStatusDoc"
+                         class="invalid-feedback">
+                      {{err}}
+                    </div>
+                  </div>
+                </div>
+                <div class="col-sm-12 col-md-12 col-lg-12">
+                  <div id="StdTranscript_Prog"
+                       class="progress mb-3"
+                       style="height: calc(2.25rem + 2px); display: none;">
+                    <div class="progress-bar progress-bar-striped progress-bar-animated"
+                         role="progressbar"
+                         aria-valuenow="{{uploadDocProgress.StdTranscript}}"
+                         aria-valuemin="0"
+                         aria-valuemax="100"
+                         style="width: {{uploadDocProgress.StdTranscript}}%;"></div>
+                  </div>
+                  <div id="StdTranscript_Inp" class="input-group mb-3">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text" id="ogrenciTranscript-addon">Transkript Belgesi</span>
+                    </div>
+                    <input type="file" class="form-control" ng-class="{'is-invalid': belgeFormError.StdTranscript}"
+                           ngf-select ngf-pattern="'image/png, image/jpg, image/jpeg, application/pdf'"
+                           ngf-accept="'image/png, image/jpg, image/jpeg, application/pdf'"
+                           ngf-max-size="500KB"
+                           name="StdTranscript"
+                           id="ogrenciTranscript" lang="tr"
+                           fileread="belgeFormData.StdTranscript">
+                    <div class="input-group-append">
+                      <button type="button" class="btn btn-info"
+                              ng-click="upload(belgeFormData.StdTranscript, 'StdTranscript', $event)"
+                              ng-disabled="!belgeFormData.StdTranscript || !userCanUpload"
+                              data-toggle="tooltip"
+                              data-placement="top"
+                              title="Dosyayı Yükle">
+                        Yükle
+                      </button>
+                      <button type="button" class="btn btn-success viewBtn"
+                              data-loading-text="<i class='fa fa-circle-o-notch fa-spin'></i>"
+                              data-toggle="tooltip"
+                              data-placement="top"
+                              id="id_StdTranscriptView"
+                              title="Dosyayı Görüntüle"
+                              ng-click="viewUploadedDoc('StdTranscript')">
+                        Görüntüle
+                      </button>
+                    </div>
+                    <div ng-if="belgeFormError.StdTranscript"
+                         ng-repeat="err in belgeFormError.StdTranscript"
+                         class="invalid-feedback">
+                      {{err}}
+                    </div>
+                  </div>
+                </div>
+                <div class="col-sm-12 col-md-12 col-lg-12">
+                  <div id="DisciplineStatusDoc_Prog"
+                       class="progress mb-3"
+                       style="height: calc(2.25rem + 2px); display: none;">
+                    <div class="progress-bar progress-bar-striped progress-bar-animated"
+                         role="progressbar"
+                         aria-valuenow="{{uploadDocProgress.DisciplineStatusDoc}}"
+                         aria-valuemin="0"
+                         aria-valuemax="100"
+                         style="width: {{uploadDocProgress.DisciplineStatusDoc}}%;"></div>
+                  </div>
+                  <div id="DisciplineStatusDoc_Inp"
+                       class="input-group mb-3">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text" id="disiplinDurumuBelgesi-addon">Disiplin Durumu Belgesi</span>
+                    </div>
+                    <input type="file" class="form-control" ng-class="{'is-invalid': belgeFormError.DisciplineStatusDoc}"
+                           ngf-select ngf-pattern="'image/png, image/jpg, image/jpeg, application/pdf'"
+                           ngf-accept="'image/png, image/jpg, image/jpeg, application/pdf'"
+                           ngf-max-size="500KB"
+                           name="DisciplineStatusDoc"
+                           id="disiplinDurumuBelgesi" lang="tr"
+                           fileread="belgeFormData.DisciplineStatusDoc">
+                    <div class="input-group-append">
+                      <button type="button" class="btn btn-info"
+                              ng-click="upload(belgeFormData.DisciplineStatusDoc, 'DisciplineStatusDoc', $event)"
+                              ng-disabled="!belgeFormData.DisciplineStatusDoc || !userCanUpload"
+                              data-toggle="tooltip"
+                              data-placement="top"
+                              title="Dosyayı Yükle">
+                        Yükle
+                      </button>
+                      <button type="button" class="btn btn-success viewBtn"
+                              data-loading-text="<i class='fa fa-circle-o-notch fa-spin'></i>"
+                              data-toggle="tooltip"
+                              data-placement="top"
+                              id="id_DisciplineStatusDocView"
+                              title="Dosyayı Görüntüle"
+                              ng-click="viewUploadedDoc('DisciplineStatusDoc')">
+                        Görüntüle
+                      </button>
+                    </div>
+                    <div ng-if="belgeFormError.DisciplineStatusDoc"
+                         ng-repeat="err in belgeFormError.DisciplineStatusDoc"
+                         class="invalid-feedback">
+                      {{err}}
+                    </div>
+                  </div>
+                </div>
+                <div class="col-sm-12 col-md-12 col-lg-12">
+                  <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                      <div class="input-group-text">
+                        <input name="ContractIsAccepted"
+                               ng-model="belgeFormData.ContractIsAccepted"
+                               required ng-required="true"
+                               type="checkbox">
+                        <div ng-if="belgeFormError.ContractIsAccepted"
+                             ng-repeat="err in belgeFormError.ContractIsAccepted"
+                             class="invalid-feedback">
+                          {{err}}
+                        </div>
+                      </div>
+                    </div>
+                    <textarea
+                            style="resize: none; font-size: small;"
+                            disabled
+                            class="form-control small"
+                    >Bu formda verdiğim bütün bilgilerin doğruluğunu yanlış, eksik veya yalan beyan verdiğim taktirde hakkımda yapılacak her türlü işlemin sorumluluğunu kabul ediyor ve bursumun derhal kesileceğini biliyorum.</textarea>
+                  </div>
+                </div>
+                <div class="col-sm-12 col-md-12 col-lg-12">
+                  <div class="float-right mb-3">
+                    <button ng-if="!recordIsExist" ng-disabled="belgeForm.$invalid" type="submit" class="btn btn-success">Bitir</button>
+                    <button ng-if="recordIsExist" ng-disabled="belgeForm.$invalid" type="submit" class="btn btn-info">Güncelle</button>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal" id="belgeModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">{{globs.getModalHeader()}}</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <p>{{globs.getModalBody()}}</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger" data-dismiss="modal">Evet</button>
+          <button type="button" class="btn btn-success" data-dismiss="modal" ui-sref="main">Hayır</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal" id="uploadedDocModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body" id="uploadedDocModalBody"></div>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+    $(function () {
+        $('#sidebarCollapse').on('click', function () {
+            $('#sidebar').toggleClass('active');
+        });
+        $('[data-toggle="tooltip"]').tooltip();
+        $('.selectpicker').selectpicker();
+        $('select').change(function () {
+            $('.selectpicker').selectpicker('refresh');
+        });
+    })
+</script>

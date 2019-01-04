@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>
+<html lang="tr" ng-app="gursoyVakfi" class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>
+<html lang="tr" ng-app="gursoyVakfi" class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>
+<html lang="tr" ng-app="gursoyVakfi" class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html lang="tr" ng-app="gursoyVakfi" class="no-js"> <!--<![endif]-->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Gürsoy Vakfı</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="lib/bootstrap-4.1.3-dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="lib/bootstrap-4.1.3-dist/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.3/css/bootstrap-select.min.css">
+    <link rel="stylesheet" href="lib/custom/css/style.css">
+    <link rel="stylesheet" href="lib/datepicker/datepicker.min.css">
+    <link rel="stylesheet" href="lib/sweetalert/sweetalert.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css"
+          integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:400,500,700&amp;subset=latin,latin-ext">
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css?family=Lato:400,900,700,300&amp;subset=latin-ext,latin">
+</head>
+<body ng-app="gursoyVakfi" ng-controller="IndexCtrl">
+<div class="wrapper">
+    <nav id="sidebar">
+        <div class="sidebar-fixed">
+            <div class="sidebar-header">
+                <img class="responsive-img" src="lib/images/logo.png" alt="Gürsoy Vakfı">
+            </div>
+
+            <ul class="list-unstyled components">
+                <li class="text-center">
+                    <a ui-sref="main">Gürsoy Vakfı</a>
+                </li>
+                <li class="text-center">
+                    <a ui-sref="hakkimizda">Hakkımızda</a>
+                </li>
+                <li class="text-center">
+                    <a ui-sref="sikcaSorulanSorular" data-toggle="tooltip" data-placement="top" title="Başvuru yapmadan önce lütfen inceleyiniz">
+                        <i style="color: red;" class="fa fa-info-circle"></i>
+                        Sıkça Sorulan Sorular
+                    </a>
+                </li>
+                <li class="text-center">
+                    <a ui-sref="kisiselVerilerinKorunmasi">Kişisel Verilerin Korunması</a>
+                </li>
+                <li class="text-center">
+                    <a ui-sref="iletisim">İletişim</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <div id="content" class="bg" style="background: url('lib/images/blur-student1.jpg')">
+        <div ng-view></div>
+    </div>
+</div>
+
+<div id="loginModal2" class="modal fade">
+    <div class="modal-dialog modal-login">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="avatar">
+                    <img src="https://www.tutorialrepublic.com/examples/images/avatar.png" alt="Avatar">
+                </div>
+                <h4 class="modal-title">Bursiyer Girişi</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div ng-show="loginFormError != null" class="alert alert-danger" role="alert">
+                    {{loginFormError}}
+                </div>
+                <form method="post" name="loginForm">
+                    <div class="form-group">
+                        <input type="text" class="form-control" name="TcNo" placeholder="T.C No" minlength="11" maxlength="11" required
+                               ng-model="loginFormData.TcNo" ng-minlength="11" ng-maxlength="11" ng-required="true">
+                    </div>
+                    <div class="form-group">
+                        <input type="password" class="form-control" name="Password" placeholder="Şifre" minlength="8" required
+                               ng-model="loginFormData.Password" ng-minlength="8" ng-required="true">
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" ng-click="login()" ng-disabled="loginForm.$invalid" class="btn btn-primary btn-lg btn-block login-btn">Giriş Yap</button>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <a style="cursor: pointer;" data-toggle="modal" data-target="#forgotPasswordModal">Şifremi Unuttum</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="forgotPasswordModal" class="modal fade">
+    <div class="modal-dialog modal-login">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="avatar">
+                    <img src="https://www.tutorialrepublic.com/examples/images/avatar.png" alt="Avatar">
+                </div>
+                <h4 class="modal-title">Şifremi Unuttum</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div ng-show="forgotPasswordError != null" class="alert alert-danger" role="alert">
+                    {{forgotPasswordError}}
+                </div>
+                <form method="post" name="forgotPasswordForm" ng-show="!isForgotPasswordSuccess">
+                    <div class="form-group">
+                        <input type="text" class="form-control" name="TcNo" placeholder="T.C No" minlength="11" maxlength="11" required
+                               ng-model="forgotPasswordData.TcNo" ng-minlength="11" ng-maxlength="11" ng-required="true">
+                    </div>
+                    <div class="form-group">
+                        <input type="email" class="form-control" name="Email" placeholder="E-posta" required
+                               ng-model="forgotPasswordData.Email" ng-required="true">
+                    </div>
+                    <div class="form-group">
+                        <input type="text" class="form-control" name="TelNo" placeholder="Telefon Numarası" required
+                               mask="(999)-999-99-99" clean="true"
+                               ng-model="forgotPasswordData.TelNo" ng-required="true">
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" ng-click="forgotPassword();" ng-disabled="forgotPasswordForm.$invalid" class="btn btn-primary btn-lg btn-block login-btn">Gönder</button>
+                    </div>
+                </form>
+                <div class="alert alert-success text-center" ng-show="isForgotPasswordSuccess" role="alert">
+                    <strong>Şifre sıfırlama başarılı.</strong> <br> Girmiş olduğunuz e-posta adresine gönderilen şifreniz ile giriş yapabilirsiniz.
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="registerModal2" class="modal fade">
+    <div class="modal-dialog modal-login">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="avatar">
+                    <img src="https://www.tutorialrepublic.com/examples/images/avatar.png" alt="Avatar">
+                </div>
+                <h4 class="modal-title">Bursiyer Kayıt</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form method="post" name="registerForm" ng-show="!isRegistered">
+                    <div class="form-group">
+                        <input type="text" class="form-control" ng-class="{'is-invalid': registerFormError.Name}" name="Name" placeholder="Adınız" required
+                               ng-required="true" ng-model="registerFormData.Name">
+                        <div ng-if="registerFormError.Name" ng-repeat="err in registerFormError.Name" class="invalid-feedback">
+                            {{err}}
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" class="form-control" ng-class="{'is-invalid': registerFormError.Surname}" name="Surname" placeholder="Soyadınız" required
+                               ng-required="true" ng-model="registerFormData.Surname">
+                        <div ng-if="registerFormError.Surname" ng-repeat="err in registerFormError.Surname" class="invalid-feedback">
+                            {{err}}
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" class="form-control" ng-class="{'is-invalid': registerFormError.TcNo}" name="TcNo" placeholder="TC No" required
+                               ng-required="true" ng-model="registerFormData.TcNo">
+                        <div ng-if="registerFormError.TcNo" ng-repeat="err in registerFormError.TcNo" class="invalid-feedback">
+                            {{err}}
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <input type="email" class="form-control" ng-class="{'is-invalid': registerFormError.Email}" name="Email" placeholder="E-Mail" required
+                               ng-required="true" ng-model="registerFormData.Email">
+                        <div ng-if="registerFormError.Email" ng-repeat="err in registerFormError.Email" class="invalid-feedback">
+                            {{err}}
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" class="form-control" ng-class="{'is-invalid': registerFormError.TelNo}" name="TelNo" placeholder="Telefon" required
+                               ng-required="true" ng-model="registerFormData.TelNo" mask="(999)-999-99-99" clean="true">
+                        <div ng-if="registerFormError.TelNo" ng-repeat="err in registerFormError.TelNo" class="invalid-feedback">
+                            {{err}}
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <input type="password" class="form-control" ng-class="{'is-invalid': registerFormError.Password}" name="Password" placeholder="Şifre" required
+                               ng-required="true" ng-model="registerFormData.Password">
+                        <div ng-if="registerFormError.Password" ng-repeat="err in registerFormError.Password" class="invalid-feedback">
+                            {{err}}
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <input type="password" class="form-control" name="RePassword" placeholder="Şifre Tekrar" required
+                               ng-required="true" ng-model="registerFormData.RePassword">
+                    </div>
+                    <div class="form-group text-center">
+                        <input type="checkbox" name="isAccept" required ng-required="true" ng-model="registerFormData.isAccept">
+                        <a class="small">Kullanıcı sözleşmesini kabul ediyorum.</a>
+                    </div>
+
+                    <div class="form-group">
+                        <button type="submit" ng-click="register()" ng-disabled="registerForm.$invalid" class="btn btn-primary btn-lg btn-block login-btn">Kayıt Ol</button>
+                    </div>
+                </form>
+                <div class="alert alert-success text-center" ng-show="isRegistered" role="alert">
+                    <strong>Kaydınız başarılı.</strong> <br> Lütfen girmiş olduğunuz e-posta adresine gönderilen onay linkine tıklayınız.
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="lib/jQuery/jquery-3.3.1.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"></script>
+<script src="lib/bootstrap-4.1.3-dist/js/bootstrap.min.js"></script>
+<script src="lib/bootstrap-4.1.3-dist/js/bootstrap.bundle.min.js"></script>
+<script src="lib/datepicker/datepicker.min.js"></script>
+<script src="lib/datepicker/datepicker.tr-TR.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.3/js/bootstrap-select.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.3/js/i18n/defaults-tr_TR.min.js"></script>
+<script src="lib/angular/angular.js"></script>
+<script src="lib/angular-route/angular-route.js"></script>
+<script src="lib/angular-ui-router/angular-ui-router.min.js"></script>
+<script src="lib/angular-mask/ngMask.min.js"></script>
+<script src="lib/ng-file-upload/ng-file-upload.min.js"></script>
+<script src="lib/angular-jwt/angular-jwt.js"></script>
+<script src="lib/sweetalert/sweetalert.min.js"></script>
+<script src="lib/ng-sweet-alert/ng-sweet-alert.min.js"></script>
+<script src="app.js"></script>
+<script src="main/main.js"></script>
+<script src="bursBasvuru/bursBasvuru.js"></script>
+<script src="core/globs.js"></script>
+<script src="core/userProfile.js"></script>
+<script src="core/version/version.js"></script>
+<script src="core/version/version-directive.js"></script>
+<script src="core/version/interpolate-filter.js"></script>
+<script>
+    $(function () {
+        $('[data-toggle="tooltip"]').tooltip()
+    })
+</script>
+</body>
+</html>

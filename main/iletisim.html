@@ -1,0 +1,75 @@
+<div ng-controller="IletisimCtrl">
+  <ng-include src="'main/navbar.html'"></ng-include>
+  <div class="row marg-top-20 hakkimizda">
+    <div class="col-md-12 col-sm-12 col-lg-10 offset-lg-1">
+      <div class="jumbotron jumbotron-fluid">
+        <div class="container">
+          <div class="row">
+            <div class="col-md-6">
+              <h2 class="text-uppercase mt-3 font-weight-bold">İletişim Formu</h2>
+              <form action="">
+                <div class="row">
+                  <div class="col-lg-6">
+                    <div class="form-group">
+                      <input type="text" class="form-control mt-2" placeholder="Adınız" required>
+                    </div>
+                  </div>
+                  <div class="col-lg-6">
+                    <div class="form-group">
+                      <input type="text" class="form-control mt-2" placeholder="Soyadınız" required>
+                    </div>
+                  </div>
+                  <div class="col-lg-6">
+                    <div class="form-group">
+                      <input type="email" class="form-control mt-2" placeholder="Email" required>
+                    </div>
+                  </div>
+                  <div class="col-lg-6">
+                    <div class="form-group">
+                      <input type="number" class="form-control mt-2" placeholder="Telefon numaranız" required>
+                    </div>
+                  </div>
+                  <div class="col-12">
+                    <div class="form-group">
+                      <textarea class="form-control" id="exampleFormControlTextarea1" placeholder="Mesajınız" rows="3" required></textarea>
+                    </div>
+                  </div>
+                  <div class="col-12">
+                    <div class="form-group">
+                      <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="" id="invalidCheck2" required>
+                        <label class="form-check-label" for="invalidCheck2">
+                          Bilgilerimin doğruluğunu kabul ediyorum.
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-12">
+                    <button class="btn btn-success" type="submit">Gönder</button>
+                  </div>
+                </div>
+              </form>
+            </div>
+            <div class="col-md-6 maps" >
+              <div class="text-dark">
+                <h2 class="text-uppercase mt-4 font-weight-bold">Adres Bilgileri</h2>
+
+                <i class="fas fa-phone mt-3"></i> <a href="tel:+902163331616">+ (90) 216 333 16 16</a><br>
+                <i class="fa fa-envelope mt-3"></i> <a href="mailTo:info@gursoyvakfi.com">info@gursoyvakfi.com</a><br>
+                <i class="fas fa-globe mt-3"></i> İstanbul, Türkiye<br>
+              </div>
+              <iframe class="mt-2" src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d11880.492291371422!2d12.4922309!3d41.8902102!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x28f1c82e908503c4!2sColosseo!5e0!3m2!1sit!2sit!4v1524815927977" frameborder="0" style="border:0; width: 100%; height: 240px;" allowfullscreen></iframe>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#sidebarCollapse').on('click', function () {
+            $('#sidebar').toggleClass('active');
+        });
+    });
+</script>

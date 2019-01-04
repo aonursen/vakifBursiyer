@@ -1,0 +1,432 @@
+<div ng-controller="BursBasvuruMaliCtrl" ng-if="isLoggedIn && siteStatus == true && userStatus == true">
+    <ng-include src="'bursBasvuru/nav.html'"></ng-include>
+    <div class="row">
+        <div class="col-md-12 col-sm-12 col-lg-12">
+            <div class="container">
+                <div id="smartwizard" style="background-color: #FFFFFF;">
+                    <div class="text-center" ng-include src="'bursBasvuru/steps.html'"></div>
+                    <div class="container">
+                        <form id="step-4-form" name="maliForm" ng-submit="maliForm.$valid && maliSbmt($event)" class="mt-2">
+                            <div class="row">
+                                <div class="col-sm-12 col-md-12 col-lg-12 mb-3">
+                                    <h2 class="text-divider"><span class="text-white">Gelir/Gider İle İlgili Bilgiler</span></h2>
+                                </div>
+                                <div class="col-sm-12 col-md-12 col-lg-6">
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                                <span class="input-group-text"
+                                                      id="std-rent-cost-addon">
+                                                    Kaldığınız Yerin Aylık Kira Bedeli
+                                                </span>
+                                        </div>
+                                        <input type="number" class="form-control" ng-class="{'is-invalid': maliFormError.StdRentCost}"
+                                               placeholder="Örn: 900"
+                                               name="StdRentCost"
+                                               required ng-required="true"
+                                               aria-label="Aylık Kira Bedeli"
+                                               aria-describedby="dogum-tarih-addon"
+                                               ng-model="maliFormData.StdRentCost">
+                                        <div class="input-group-append">
+                                            <span class="input-group-text">,00 TL</span>
+                                            <span class="input-group-text alert-success"
+                                                  data-toggle="tooltip"
+                                                  data-placement="top"
+                                                  title="Yurt ise yurdun aylık bedeli, Ev ise aylık kira bedeli">?</span>
+                                        </div>
+                                        <div ng-if="maliFormError.StdRentCost"
+                                             ng-repeat="err in maliFormError.StdRentCost"
+                                             class="invalid-feedback">
+                                            {{err}}
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 col-md-12 col-lg-6">
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                                <span class="input-group-text"
+                                                      id="baba-yillik-gelir-addon">
+                                                    Baba'nın Yıllık Geliri
+                                                </span>
+                                        </div>
+                                        <input type="number" class="form-control" ng-class="{'is-invalid': maliFormError.FatherYearlySalary}"
+                                               placeholder="Örn: 48500"
+                                               name="FatherYearlySalary"
+                                               aria-label="Baba'nın Yıllık Geliri"
+                                               aria-describedby="baba-yillik-gelir-addon"
+                                               ng-model="maliFormData.FatherYearlySalary">
+                                        <div class="input-group-append">
+                                            <span class="input-group-text">,00 TL</span>
+                                            <span class="input-group-text alert-success"
+                                                  data-toggle="tooltip"
+                                                  data-placement="top"
+                                                  title="Yok ise boş geçiniz">?</span>
+                                        </div>
+                                        <div ng-if="maliFormError.FatherYearlySalary"
+                                             ng-repeat="err in maliFormError.FatherYearlySalary"
+                                             class="invalid-feedback">
+                                            {{err}}
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 col-md-12 col-lg-6">
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                                <span class="input-group-text"
+                                                      id="anne-yillik-gelir-addon">
+                                                    Anne'nin Yıllık Geliri
+                                                </span>
+                                        </div>
+                                        <input type="number" class="form-control" ng-class="{'is-invalid': maliFormError.MotherYearlySalary}"
+                                               placeholder="Örn: 20500"
+                                               name="MotherYearlySalary"
+                                               aria-label="Anne'nin Yıllık Geliri"
+                                               aria-describedby="anne-yillik-gelir-addon"
+                                               ng-model="maliFormData.MotherYearlySalary">
+                                        <div class="input-group-append">
+                                            <span class="input-group-text">,00 TL</span>
+                                            <span class="input-group-text alert-success"
+                                                  data-toggle="tooltip"
+                                                  data-placement="top"
+                                                  title="Yok ise boş geçiniz.">?</span>
+                                        </div>
+                                        <div ng-if="maliFormError.MotherYearlySalary"
+                                             ng-repeat="err in maliFormError.MotherYearlySalary"
+                                             class="invalid-feedback">
+                                            {{err}}
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 col-md-12 col-lg-6">
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                                <span class="input-group-text"
+                                                      id="diger-yillik-gelir-addon">
+                                                    Diğer Yıllık Gelirler
+                                                </span>
+                                        </div>
+                                        <input type="number" class="form-control" ng-class="{'is-invalid': maliFormError.OtherYearlySalary}"
+                                               placeholder="Örn: 5800"
+                                               name="OtherYearlySalary"
+                                               aria-label="Diğer Yıllık Gelirler"
+                                               aria-describedby="diger-yillik-gelir-addon"
+                                               ng-model="maliFormData.OtherYearlySalary">
+                                        <div class="input-group-append">
+                                            <span class="input-group-text">,00 TL</span>
+                                            <span class="input-group-text alert-success"
+                                                  data-toggle="tooltip"
+                                                  data-placement="top"
+                                                  title="Yok ise boş geçiniz">?</span>
+                                        </div>
+                                        <div ng-if="maliFormError.OtherYearlySalary"
+                                             ng-repeat="err in maliFormError.OtherYearlySalary"
+                                             class="invalid-feedback">
+                                            {{err}}
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 col-md-12 col-lg-12 mb-3">
+                                    <h2 class="text-divider"><span class="text-white">Gayrimenkul İle İlgili Bilgiler</span></h2>
+                                </div>
+                                <div class="col-sm-12 col-md-12 col-lg-6">
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <label class="input-group-text" for="aileninKaldigiEv">Aile'nin Kaldığı Ev Size Mi Ait ?</label>
+                                        </div>
+                                        <select class="selectpicker form-control" ng-class="{'is-invalid': maliFormError.ParentHouseIsYours}"
+                                                id="aileninKaldigiEv"
+                                                required ng-required="true"
+                                                name="ParentHouseIsYours"
+                                                ng-model="maliFormData.ParentHouseIsYours">
+                                            <option value="true" ng-value="true">Evet</option>
+                                            <option value="false" ng-value="false">Hayır</option>
+                                        </select>
+                                        <div ng-if="maliFormError.StdRentCost"
+                                             ng-repeat="err in maliFormError.StdRentCost"
+                                             class="invalid-feedback">
+                                            {{err}}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 col-md-12 col-lg-6">
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text" id="evinDegeri-addon">Evin Değeri</span>
+                                        </div>
+                                        <input type="number" class="form-control" ng-class="{'is-invalid': maliFormError.ParentHouseValue}"
+                                               placeholder="Örn: 485000"
+                                               name="ParentHouseValue"
+                                               aria-label="Evin Değeri"
+                                               aria-describedby="evinDegeri-addon"
+                                               ng-model="maliFormData.ParentHouseValue"
+                                               ng-disabled="maliFormData.ParentHouseIsYours == 'false' ||
+                                               maliFormData.ParentHouseIsYours == false">
+                                        <div class="input-group-append">
+                                            <span class="input-group-text">,00 TL</span>
+                                        </div>
+                                        <div ng-if="maliFormError.ParentHouseValue"
+                                             ng-repeat="err in maliFormError.ParentHouseValue"
+                                             class="invalid-feedback">
+                                            {{err}}
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 col-md-12 col-lg-6">
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">Aile'nin Sahip Olduğu Gayrimenkuller</span>
+                                        </div>
+                                        <textarea class="form-control" ng-class="{'is-invalid': maliFormError.ParentPlaces}"
+                                                  placeholder="Örn: Şişli'de 1 Adet Ev, Beykoz'da Bir Adet Arsa"
+                                                  name="ParentPlaces"
+                                                  aria-label="Aile'nin Sahip Olduğu Gayrimenkuller"
+                                                  ng-model="maliFormData.ParentPlaces"></textarea>
+                                        <div class="input-group-append">
+                                            <span class="input-group-text alert-success"
+                                                  data-toggle="tooltip"
+                                                  data-placement="top"
+                                                  title="Yok ise boş geçiniz">?</span>
+                                        </div>
+                                        <div ng-if="maliFormError.ParentPlaces"
+                                             ng-repeat="err in maliFormError.ParentPlaces"
+                                             class="invalid-feedback">
+                                            {{err}}
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 col-md-12 col-lg-6">
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text" id="evinKiraBedeli-addon">Evin Kira Bedeli</span>
+                                        </div>
+                                        <input type="number" class="form-control"
+                                               placeholder="Örn: 1200"
+                                               name="ParentHouseRentCost"
+                                               aria-label="Evin Kira Bedeli"
+                                               aria-describedby="evinKiraBedeli-addon"
+                                               ng-model="maliFormData.ParentHouseRentCost"
+                                               ng-disabled="maliFormData.ParentHouseIsYours == 'true' ||
+                                               maliFormData.ParentHouseIsYours == true">
+                                        <div class="input-group-append">
+                                            <span class="input-group-text">,00 TL</span>
+                                        </div>
+                                        <div ng-if="maliFormError.ParentHouseRentCost"
+                                             ng-repeat="err in maliFormError.ParentHouseRentCost"
+                                             class="invalid-feedback">
+                                            {{err}}
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 col-md-12 col-lg-12 mb-3">
+                                    <h2 class="text-divider"><span class="text-white">Araç İle İlgili Bilgiler</span></h2>
+                                </div>
+                                <div class="col-sm-12 col-md-12 col-lg-6">
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <label class="input-group-text"
+                                                   for="aileSahipOlduguArac">
+                                                Aile'nin Sahip Olduğu Araç Var Mı ?
+                                            </label>
+                                        </div>
+                                        <select class="selectpicker form-control" ng-class="{'is-invalid': maliFormError.ParentHasCar}"
+                                                name="ParentHasCar"
+                                                required ng-required="true"
+                                                id="aileSahipOlduguArac"
+                                                ng-model="maliFormData.ParentHasCar">
+                                            <option value="true" ng-value="true">Evet</option>
+                                            <option value="false" ng-value="false">Hayır</option>
+                                        </select>
+                                        <div ng-if="maliFormError.ParentHasCar"
+                                             ng-repeat="err in maliFormError.ParentHasCar"
+                                             class="invalid-feedback">
+                                            {{err}}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 col-md-12 col-lg-6">
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                                <span class="input-group-text"
+                                                      id="arac-marka-addon">
+                                                    Aracın Marka/Modeli
+                                                </span>
+                                        </div>
+                                        <input type="text" class="form-control" ng-class="{'is-invalid': maliFormError.ParentCarModel}"
+                                               name="ParentCarModel"
+                                               placeholder="Örn: Renault/Clio"
+                                               aria-label="Aracın Marka/Modeli"
+                                               aria-describedby="arac-marka-addon"
+                                               ng-model="maliFormData.ParentCarModel"
+                                               ng-disabled="maliFormData.ParentHasCar == 'false' ||
+                                               maliFormData.ParentHasCar == false">
+                                        <div ng-if="maliFormError.ParentCarModel"
+                                             ng-repeat="err in maliFormError.ParentCarModel"
+                                             class="invalid-feedback">
+                                            {{err}}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 col-md-12 col-lg-6">
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                                <span class="input-group-text"
+                                                      id="arac-model-yil-addon">
+                                                    Aracın Model Yılı
+                                                </span>
+                                        </div>
+                                        <input type="text" class="form-control" ng-class="{'is-invalid': maliFormError.ParentCarYear}"
+                                               name="ParentCarYear"
+                                               placeholder="Örn: 2014"
+                                               aria-label="Aracın Model Yılı"
+                                               aria-describedby="arac-model-yil-addon"
+                                               ng-model="maliFormData.ParentCarYear"
+                                               ng-disabled="maliFormData.ParentHasCar == 'false' ||
+                                               maliFormData.ParentHasCar == false">
+                                        <div ng-if="maliFormError.ParentCarYear"
+                                             ng-repeat="err in maliFormError.ParentCarYear"
+                                             class="invalid-feedback">
+                                            {{err}}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 col-md-12 col-lg-12 mb-3">
+                                    <h2 class="text-divider"><span class="text-white">Banka İle İlgili Bilgiler</span></h2>
+                                </div>
+                                <div class="col-sm-12 col-md-12 col-lg-6">
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <label class="input-group-text"
+                                                   for="bankName">
+                                                Banka Adı
+                                            </label>
+                                        </div>
+                                        <select class="selectpicker form-control" ng-class="{'is-invalid': maliFormError.BankName}"
+                                                name="BankId"
+                                                required ng-required="true"
+                                                id="bankName"
+                                                ng-model="maliFormData.BankId">
+                                            <option ng-repeat="bank in globs.getBanks()"
+                                                    value="{{bank.BankId}}"
+                                                    ng-value="bank.BankId">{{bank.BankName}}</option>
+                                        </select>
+                                        <div ng-if="maliFormError.BankName"
+                                             ng-repeat="err in maliFormError.BankName"
+                                             class="invalid-feedback">
+                                            {{err}}
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 col-md-12 col-lg-6">
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                                <span class="input-group-text"
+                                                      id="burs-banka-sube-addon">
+                                                    Hesap Sahibi Adı Soyadı
+                                                </span>
+                                        </div>
+                                        <input type="text" class="form-control" ng-class="{'is-invalid': maliFormError.BankAccOwnerNameSurname}"
+                                               name="BankAccOwnerNameSurname"
+                                               placeholder="Örn: Hesap başvuru sahibinin adına olmalıdır!"
+                                               aria-label="Banka Şubesi"
+                                               aria-describedby="burs-banka-ad-addon" 
+                                               ng-model="maliFormData.BankAccOwnerNameSurname">
+                                        <div class="input-group-append">
+                                                <span class="input-group-text alert-danger"
+                                                      data-toggle="tooltip"
+                                                      data-placement="top"
+                                                      title="Banka hesabı başvuru sahibinin adına olmalıdır!">?</span>
+                                        </div>
+                                        <div ng-if="maliFormError.BankAccOwnerNameSurname"
+                                             ng-repeat="err in maliFormError.BankAccOwnerNameSurname"
+                                             class="invalid-feedback">
+                                            {{err}}
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 col-md-12 col-lg-12">
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                                <span class="input-group-text">
+                                                    IBAN
+                                                </span>
+                                            <span class="input-group-text">TR</span>
+                                        </div>
+                                        <input type="text" class="form-control" ng-class="{'is-invalid': maliFormError.BankIban}"
+                                               name="BankIban"
+                                               placeholder="Örn: 56 0006 2000 0001 2990 0226 04"
+                                               aria-label="Bursun Yatırılacağı Banka Hesap IBAN"
+                                               aria-describedby="burs-banka-hesap-no-addon"
+                                               ng-model="maliFormData.BankIban"
+                                               mask="99 9999 9999 9999 9999 9999 99">
+                                        <div class="input-group-append">
+                                                <span class="input-group-text alert-success"
+                                                      data-toggle="tooltip"
+                                                      data-placement="top"
+                                                      title="Bursun Yatırılacağı IBAN Numarası">?</span>
+                                        </div>
+                                        <div ng-if="maliFormError.BankIban"
+                                             ng-repeat="err in maliFormError.BankIban"
+                                             class="invalid-feedback">
+                                            {{err}}
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-12 col-md-12 col-lg-12">
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <div class="input-group-text">
+                                                <input name="ContractIsAccepted"
+                                                       required ng-required="true"
+                                                       ng-model="maliFormData.ContractIsAccepted"
+                                                       type="checkbox">
+                                                <div ng-if="maliFormError.ContractIsAccepted"
+                                                     ng-repeat="err in maliFormError.ContractIsAccepted"
+                                                     class="invalid-feedback">
+                                                    {{err}}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <textarea
+                                                style="resize: none; font-size: small;"
+                                                disabled
+                                                class="form-control small"
+                                        >Bu formda verdiğim bütün bilgilerin doğruluğunu yanlış, eksik veya yalan beyan verdiğim taktirde hakkımda yapılacak her türlü işlemin sorumluluğunu kabul ediyor ve bursumun derhal kesileceğini biliyorum.</textarea>
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-12 col-md-12 col-lg-12">
+                                    <div class="float-right mb-3">
+                                        <button ng-if="!recordIsExist" ng-disabled="maliForm.$invalid" type="submit" class="btn btn-success">Devam Et</button>
+                                        <button ng-if="recordIsExist" ng-disabled="maliForm.$invalid" type="submit" class="btn btn-info">Güncelle</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(function () {
+        $('#sidebarCollapse').on('click', function () {
+            $('#sidebar').toggleClass('active');
+        });
+        $('[data-toggle="tooltip"]').tooltip();
+        $('.selectpicker').selectpicker();
+        $('select').change(function () {
+            $('.selectpicker').selectpicker('refresh');
+        })
+    })
+</script>

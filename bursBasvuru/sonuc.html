@@ -1,0 +1,28 @@
+<div ng-controller="BursBasvuruSonucCtrl" ng-if="isLoggedIn">
+  <ng-include src="'bursBasvuru/nav.html'"></ng-include>
+  <div class="row">
+    <div class="col-md-12 col-sm-12 col-lg-12">
+      <div class="container">
+        <div id="smartwizard" style="background-color: #FFFFFF;">
+          <div class="container">
+            <div class="text-center">
+              <img src="../lib/images/check.png" width="240">
+              <h4>Başvurunuz başarılı bir şekilde alınmıştır.</h4> <br>
+              <h6>Onay/Red durumu tarafınıza e-posta ve sms ile iletilecektir.</h6> <br>
+              <p>*Verilerinizi güncellemek isterseniz başvuru adımlarından güncelle butonu ile yapabilirsiniz.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<script>
+    $(function () {
+        $('#sidebarCollapse').on('click', function () {
+            $('#sidebar').toggleClass('active');
+        });
+    })
+</script>

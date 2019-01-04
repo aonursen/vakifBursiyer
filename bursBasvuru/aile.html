@@ -1,0 +1,690 @@
+<div ng-controller="BursBasvuruAileCtrl" ng-if="isLoggedIn && siteStatus == true && userStatus == true">
+    <ng-include src="'bursBasvuru/nav.html'"></ng-include>
+    <div class="row">
+        <div class="col-md-12 col-sm-12 col-lg-12">
+            <div class="container">
+                <div id="smartwizard" style="background-color: #FFFFFF;">
+                    <div class="text-center" ng-include src="'bursBasvuru/steps.html'"></div>
+                    <div class="container">
+                        <form id="step-3-form" name="aileForm" ng-submit="aileForm.$valid && aileSbmt($event)" class="mt-2">
+                            <div class="row">
+                                <div class="col-sm-12 col-md-12 col-lg-12 mb-3">
+                                    <h2 class="text-divider"><span class="text-white">Aile İle İlgili Bilgiler</span></h2>
+                                </div>
+                                <div class="col-sm-12 col-md-12 col-lg-6">
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <label class="input-group-text"
+                                                   for="aileIkametIl">
+                                                Aile'nin İkamet Ettiği İl
+                                            </label>
+                                        </div>
+                                        <select class="selectpicker form-control" ng-class="{'is-invalid': aileFormError.ParentAddressCity}"
+                                                data-live-search="true"
+                                                name="ParentAddressCity"
+                                                id="aileIkametIl" required
+                                                ng-required="true"
+                                                ng-model="aileFormData.ParentAddressCity"
+                                                ng-change="globs.setTowns(aileFormData.ParentAddressCity, 'first')">
+                                            <option ng-repeat="city in globs.getCities()" data-tokens="{{city.CityName}}"
+                                                    value="{{city.CityId}}" ng-value="city.CityId">
+                                                {{city.CityName}}
+                                            </option>
+                                        </select>
+                                        <div ng-if="aileFormError.ParentAddressCity"
+                                             ng-repeat="err in aileFormError.ParentAddressCity"
+                                             class="invalid-feedback">
+                                            {{err}}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 col-md-12 col-lg-6">
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <label class="input-group-text"
+                                                   for="aileIkametIlce">
+                                                Aile'nin İkamet Ettiği İlçe
+                                            </label>
+                                        </div>
+                                        <select class="selectpicker form-control" ng-class="{'is-invalid': aileFormError.ParentAddressTown}"
+                                                data-live-search="true"
+                                                name="ParentAddressTown"
+                                                id="aileIkametIlce" required
+                                                ng-required="true"
+                                                ng-model="aileFormData.ParentAddressTown">
+                                            <option ng-repeat="town in globs.getTownsFirst()" data-tokens="{{town.TownName}}"
+                                                    value="{{town.TownId}}" ng-value="town.TownId">
+                                                {{town.TownName}}
+                                            </option>
+                                        </select>
+                                        <div ng-if="aileFormError.ParentAddressTown"
+                                             ng-repeat="err in aileFormError.ParentAddressTown"
+                                             class="invalid-feedback">
+                                            {{err}}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 col-md-12 col-lg-12 mb-3">
+                                    <h2 class="text-divider"><span class="text-white">Baba İle İlgili Bilgiler</span></h2>
+                                </div>
+                                <div class="col-sm-12 col-md-12 col-lg-6">
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <label class="input-group-text"
+                                                   for="babaVefat">
+                                                Baba Yaşıyor Mu ?
+                                            </label>
+                                        </div>
+                                        <select class="selectpicker form-control" ng-class="{'is-invalid': aileFormError.FatherIsLiving}"
+                                                name="FatherIsLiving"
+                                                id="babaVefat" required
+                                                ng-model="aileFormData.FatherIsLiving"
+                                                ng-required="true">
+                                            <option value="true" ng-value="true">Evet</option>
+                                            <option value="false" ng-value="false">Hayır</option>
+                                        </select>
+                                        <div ng-if="aileFormError.FatherIsLiving"
+                                             ng-repeat="err in aileFormError.FatherIsLiving"
+                                             class="invalid-feedback">
+                                            {{err}}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 col-md-12 col-lg-6">
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                                <span class="input-group-text"
+                                                      id="baba-vefat-yil-addon">
+                                                    Baba'nın Vefat Yılı
+                                                </span>
+                                        </div>
+                                        <input type="number"
+                                               class="form-control" ng-class="{'is-invalid': aileFormError.FatherDeadYear}"
+                                               placeholder="Örn: 2018"
+                                               name="FatherDeadYear"
+                                               aria-label="Baba'nın Vefat Yılı"
+                                               aria-describedby="baba-vefat-yil-addon"
+                                               mask="9999"
+                                               ng-model="aileFormData.FatherDeadYear"
+                                               ng-disabled="aileFormData.FatherIsLiving == 'true' || aileFormData.FatherIsLiving == true">
+                                        <div ng-if="aileFormError.FatherDeadYear"
+                                             ng-repeat="err in aileFormError.FatherDeadYear"
+                                             class="invalid-feedback">
+                                            {{err}}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 col-md-12 col-lg-6">
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                                <span class="input-group-text"
+                                                      id="baba-ad-soyad-addon">
+                                                    Baba'nın Adı-Soyadı
+                                                </span>
+                                        </div>
+                                        <input type="text" class="form-control" ng-class="{'is-invalid': aileFormError.FatherNameSurname}"
+                                               placeholder="Örn: Mustafa Yılmaz"
+                                               name="FatherNameSurname"
+                                               aria-label="Baba'nın Adı-Soyadı"
+                                               aria-describedby="baba-ad-soyad-addon"
+                                               ng-model="aileFormData.FatherNameSurname"
+                                               ng-disabled="aileFormData.FatherIsLiving == 'false' || aileFormData.FatherIsLiving == false">
+                                        <div ng-if="aileFormError.FatherNameSurname"
+                                             ng-repeat="err in aileFormError.FatherNameSurname"
+                                             class="invalid-feedback">
+                                            {{err}}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 col-md-12 col-lg-6">
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                                <span class="input-group-text"
+                                                      id="baba-tc-no-addon">
+                                                    Baba'nın T.C Numarası
+                                                </span>
+                                        </div>
+                                        <input type="text" class="form-control" ng-class="{'is-invalid': aileFormError.FatherTcNo}"
+                                               placeholder="Örn: 37256176921"
+                                               name="FatherTcNo"
+                                               aria-label="Baba'nın T.C Numarası"
+                                               aria-describedby="baba-tc-no-addon"
+                                               ng-model="aileFormData.FatherTcNo"
+                                               ng-disabled="aileFormData.FatherIsLiving == 'false' || aileFormData.FatherIsLiving == false">
+                                        <div ng-if="aileFormError.FatherTcNo"
+                                             ng-repeat="err in aileFormError.FatherTcNo"
+                                             class="invalid-feedback">
+                                            {{err}}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 col-md-12 col-lg-6">
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <label class="input-group-text"
+                                                   for="babaEgitim">
+                                                Baba'nın Eğitim Durumu
+                                            </label>
+                                        </div>
+                                        <select class="selectpicker form-control" ng-class="{'is-invalid': aileFormError.FatherGraduateStatus}"
+                                                name="FatherGraduateStatus"
+                                                id="babaEgitim"
+                                                ng-model="aileFormData.FatherGraduateStatus"
+                                                ng-disabled="aileFormData.FatherIsLiving == 'false' || aileFormData.FatherIsLiving == false">
+                                            <option value="İlkokul">İlkokul</option>
+                                            <option value="Lise">Lise</option>
+                                            <option value="Üniversite">Üniversite</option>
+                                            <option value="Yüksek Lisans">Yüksek Lisans</option>
+                                        </select>
+                                        <div ng-if="aileFormError.FatherGraduateStatus"
+                                             ng-repeat="err in aileFormError.FatherGraduateStatus"
+                                             class="invalid-feedback">
+                                            {{err}}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 col-md-12 col-lg-6">
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <label class="input-group-text"
+                                                   for="babaCalisiyorMu">
+                                                Baba Çalışıyor Mu ?
+                                            </label>
+                                        </div>
+                                        <select class="selectpicker form-control" ng-class="{'is-invalid': aileFormError.FatherIsWorking}"
+                                                name="FatherIsWorking"
+                                                id="babaCalisiyorMu"
+                                                ng-model="aileFormData.FatherIsWorking"
+                                                ng-disabled="aileFormData.FatherIsLiving == 'false' || aileFormData.FatherIsLiving == false">
+                                            <option value="true" ng-value="true">Evet</option>
+                                            <option value="false" ng-value="false">Hayır</option>
+                                        </select>
+                                        <div ng-if="aileFormError.FatherIsWorking"
+                                             ng-repeat="err in aileFormError.FatherIsWorking"
+                                             class="invalid-feedback">
+                                            {{err}}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 col-md-12 col-lg-6">
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                                <span class="input-group-text"
+                                                      id="baba-hangi-is-addon">
+                                                    Baba Hangi İşte Çalışıyor ?
+                                                </span>
+                                        </div>
+                                        <input type="text" class="form-control" ng-class="{'is-invalid': aileFormError.FatherJob}"
+                                               name="FatherJob"
+                                               placeholder="Örn: İnşaat Ustası"
+                                               aria-label="Baba Hangi İşte Çalışıyor"
+                                               aria-describedby="baba-hangi-is-addon"
+                                               ng-model="aileFormData.FatherJob"
+                                               ng-disabled="aileFormData.FatherIsLiving == 'false' ||
+                                               aileFormData.FatherIsLiving == false || aileFormData.FatherIsWorking == 'false' ||
+                                               aileFormData.FatherIsWorking == false">
+                                        <div ng-if="aileFormError.FatherJob"
+                                             ng-repeat="err in aileFormError.FatherJob"
+                                             class="invalid-feedback">
+                                            {{err}}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 col-md-12 col-lg-6">
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                                <span class="input-group-text"
+                                                      id="baba-son-calisma-addon">
+                                                    Baba'nın Son Çalıştığı Yer
+                                                </span>
+                                        </div>
+                                        <input type="text" class="form-control" ng-class="{'is-invalid': aileFormError.FatherLastJob}"
+                                               placeholder="Örn: Özel Bir Firma'da İnşaat Şantiye Şefi"
+                                               name="FatherLastJob"
+                                               aria-label="Baba'nın Son Çalıştığı Yer"
+                                               aria-describedby="baba-son-calisma-addon"
+                                               ng-model="aileFormData.FatherLastJob"
+                                               ng-disabled="aileFormData.FatherIsLiving == 'false' || aileFormData.FatherIsLiving == false">
+                                        <div ng-if="aileFormError.FatherLastJob"
+                                             ng-repeat="err in aileFormError.FatherLastJob"
+                                             class="invalid-feedback">
+                                            {{err}}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 col-md-12 col-lg-6">
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">Baba'nın İş Adresi</span>
+                                        </div>
+                                        <textarea class="form-control" ng-class="{'is-invalid': aileFormError.FatherWorkAddress}"
+                                                  placeholder="Örn: Kavacık Mahalllesi Öğe Sokak No: 20 D:9 Beykoz/İstanbul"
+                                                  name="FatherWorkAddress"
+                                                  aria-label="Baba'nın İş Adresi" ng-model="aileFormData.FatherWorkAddress"
+                                                  ng-disabled="aileFormData.FatherIsLiving == 'false' || aileFormData.FatherIsLiving == false"></textarea>
+                                        <div ng-if="aileFormError.FatherWorkAddress"
+                                             ng-repeat="err in aileFormError.FatherWorkAddress"
+                                             class="invalid-feedback">
+                                            {{err}}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 col-md-12 col-lg-12 mb-3">
+                                    <h2 class="text-divider"><span class="text-white">Anne İle İlgili Bilgiler</span></h2>
+                                </div>
+                                <div class="col-sm-12 col-md-12 col-lg-6">
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <label class="input-group-text"
+                                                   for="anneVefat">
+                                                Anne Yaşıyor Mu ?
+                                            </label>
+                                        </div>
+                                        <select class="selectpicker form-control" ng-class="{'is-invalid': aileFormError.MotherIsLiving}"
+                                                name="MotherIsLiving"
+                                                id="anneVefat" required
+                                                ng-model="aileFormData.MotherIsLiving"
+                                                ng-required="true">
+                                            <option value="true" ng-value="true">Evet</option>
+                                            <option value="false" ng-value="false">Hayır</option>
+                                        </select>
+                                        <div ng-if="aileFormError.MotherIsLiving"
+                                             ng-repeat="err in aileFormError.MotherIsLiving"
+                                             class="invalid-feedback">
+                                            {{err}}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 col-md-12 col-lg-6">
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                                <span class="input-group-text"
+                                                      id="anne-vefat-yil-addon">
+                                                    Anne'nin Vefat Yılı
+                                                </span>
+                                        </div>
+                                        <input type="number"
+                                               class="form-control" ng-class="{'is-invalid': aileFormError.MotherDeadYear}"
+                                               placeholder="Örn: 2018"
+                                               name="MotherDeadYear"
+                                               aria-label="Anne'nin Vefat Yılı"
+                                               aria-describedby="anne-vefat-yil-addon"
+                                               mask="9999"
+                                               ng-model="aileFormData.MotherDeadYear"
+                                               ng-disabled="aileFormData.MotherIsLiving == 'true' || aileFormData.MotherIsLiving == true">
+                                        <div ng-if="aileFormError.MotherDeadYear"
+                                             ng-repeat="err in aileFormError.MotherDeadYear"
+                                             class="invalid-feedback">
+                                            {{err}}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 col-md-12 col-lg-6">
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                                <span class="input-group-text"
+                                                      id="anne-ad-soyad-addon">
+                                                    Anne'nin Adı-Soyadı
+                                                </span>
+                                        </div>
+                                        <input type="text" class="form-control" ng-class="{'is-invalid': aileFormError.MotherNameSurname}"
+                                               placeholder="Örn: Mustafa Yılmaz"
+                                               name="MotherNameSurname"
+                                               aria-label="Anne'nin Adı-Soyadı"
+                                               aria-describedby="anne-ad-soyad-addon"
+                                               ng-model="aileFormData.MotherNameSurname"
+                                               ng-disabled="aileFormData.MotherIsLiving == 'false' || aileFormData.MotherIsLiving == false">
+                                        <div ng-if="aileFormError.MotherNameSurname"
+                                             ng-repeat="err in aileFormError.MotherNameSurname"
+                                             class="invalid-feedback">
+                                            {{err}}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 col-md-12 col-lg-6">
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                                <span class="input-group-text"
+                                                      id="anne-tc-no-addon">
+                                                    Anne'nin T.C Numarası
+                                                </span>
+                                        </div>
+                                        <input type="text" class="form-control" ng-class="{'is-invalid': aileFormError.MotherTcNo}"
+                                               placeholder="Örn: 37256176921"
+                                               name="MotherTcNo"
+                                               aria-label="Anne'nin T.C Numarası"
+                                               aria-describedby="anne-tc-no-addon"
+                                               ng-model="aileFormData.MotherTcNo"
+                                               ng-disabled="aileFormData.MotherIsLiving == 'false' || aileFormData.MotherIsLiving == false">
+                                        <div ng-if="aileFormError.MotherTcNo"
+                                             ng-repeat="err in aileFormError.MotherTcNo"
+                                             class="invalid-feedback">
+                                            {{err}}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 col-md-12 col-lg-6">
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <label class="input-group-text"
+                                                   for="anneEgitim">
+                                                Anne'nin Eğitim Durumu
+                                            </label>
+                                        </div>
+                                        <select class="selectpicker form-control" ng-class="{'is-invalid': aileFormError.MotherGraduateStatus}"
+                                                name="MotherGraduateStatus"
+                                                id="anneEgitim"
+                                                ng-model="aileFormData.MotherGraduateStatus"
+                                                ng-disabled="aileFormData.MotherIsLiving == 'false' || aileFormData.MotherIsLiving == false">
+                                            <option value="İlkokul">İlkokul</option>
+                                            <option value="Lise">Lise</option>
+                                            <option value="Üniversite">Üniversite</option>
+                                            <option value="Yüksek Lisans">Yüksek Lisans</option>
+                                        </select>
+                                        <div ng-if="aileFormError.MotherGraduateStatus"
+                                             ng-repeat="err in aileFormError.MotherGraduateStatus"
+                                             class="invalid-feedback">
+                                            {{err}}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 col-md-12 col-lg-6">
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <label class="input-group-text"
+                                                   for="anneCalisiyorMu">
+                                                Anne Çalışıyor Mu ?
+                                            </label>
+                                        </div>
+                                        <select class="selectpicker form-control" ng-class="{'is-invalid': aileFormError.MotherIsWorking}"
+                                                name="MotherIsWorking"
+                                                id="anneCalisiyorMu"
+                                                ng-model="aileFormData.MotherIsWorking"
+                                                ng-disabled="aileFormData.MotherIsLiving == 'false' || aileFormData.MotherIsLiving == false">
+                                            <option value="true" ng-value="true">Evet</option>
+                                            <option value="false" ng-value="false">Hayır</option>
+                                        </select>
+                                        <div ng-if="aileFormError.MotherIsWorking"
+                                             ng-repeat="err in aileFormError.MotherIsWorking"
+                                             class="invalid-feedback">
+                                            {{err}}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 col-md-12 col-lg-6">
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                                <span class="input-group-text"
+                                                      id="anne-hangi-is-addon">
+                                                    Anne Hangi İşte Çalışıyor ?
+                                                </span>
+                                        </div>
+                                        <input type="text" class="form-control" ng-class="{'is-invalid': aileFormError.MotherJob}"
+                                               name="MotherJob"
+                                               placeholder="Örn: Ev Hanımı"
+                                               aria-label="Anne Hangi İşte Çalışıyor"
+                                               aria-describedby="anne-hangi-is-addon"
+                                               ng-model="aileFormData.MotherJob"
+                                               ng-disabled="aileFormData.MotherIsLiving == 'false' ||
+                                               aileFormData.MotherIsLiving == false || aileFormData.MotherIsWorking == 'false' ||
+                                               aileFormData.MotherIsWorking == false">
+                                        <div ng-if="aileFormError.MotherJob"
+                                             ng-repeat="err in aileFormError.MotherJob"
+                                             class="invalid-feedback">
+                                            {{err}}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 col-md-12 col-lg-6">
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                                <span class="input-group-text"
+                                                      id="anne-son-calisma-addon">
+                                                    Anne'nin Son Çalıştığı Yer
+                                                </span>
+                                        </div>
+                                        <input type="text" class="form-control" ng-class="{'is-invalid': aileFormError.MotherLastJob}"
+                                               placeholder="Örn: Özel Bir Firma'da Sekreter"
+                                               name="MotherLastJob"
+                                               aria-label="Anne'nin Son Çalıştığı Yer"
+                                               aria-describedby="anne-son-calisma-addon"
+                                               ng-model="aileFormData.MotherLastJob"
+                                               ng-disabled="aileFormData.MotherIsLiving == 'false' || aileFormData.MotherIsLiving == false">
+                                        <div ng-if="aileFormError.MotherLastJob"
+                                             ng-repeat="err in aileFormError.MotherLastJob"
+                                             class="invalid-feedback">
+                                            {{err}}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 col-md-12 col-lg-6">
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">Anne'nin İş Adresi</span>
+                                        </div>
+                                        <textarea class="form-control" ng-class="{'is-invalid': aileFormError.MotherWorkAddress}"
+                                                  placeholder="Örn: Kavacık Mahalllesi Öğe Sokak No: 20 D:9 Beykoz/İstanbul"
+                                                  name="MotherWorkAddress"
+                                                  aria-label="Anne'nin İş Adresi" ng-model="aileFormData.MotherWorkAddress"
+                                                  ng-disabled="aileFormData.MotherIsLiving == 'false' || aileFormData.MotherIsLiving == false"></textarea>
+                                        <div ng-if="aileFormError.MotherWorkAddress"
+                                             ng-repeat="err in aileFormError.MotherWorkAddress"
+                                             class="invalid-feedback">
+                                            {{err}}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 col-md-12 col-lg-12 mb-3">
+                                    <h2 class="text-divider"><span class="text-white">Diğer Bilgiler</span></h2>
+                                </div>
+                                <div class="col-sm-12 col-md-12 col-lg-6">
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <label class="input-group-text"
+                                                   for="anneBabaMedeniDurum">
+                                                Anne ve Baba'nın Medeni Durumu
+                                            </label>
+                                        </div>
+                                        <select class="selectpicker form-control" ng-class="{'is-invalid': aileFormError.ParentStatus}"
+                                                name="ParentStatus"
+                                                id="anneBabaMedeniDurum"
+                                                required ng-required="true"
+                                                ng-model="aileFormData.ParentStatus">
+                                            <option value="true" ng-value="true">Evli</option>
+                                            <option value="false" ng-value="false">Boşandı</option>
+                                        </select>
+                                        <div ng-if="aileFormError.ParentStatus"
+                                             ng-repeat="err in aileFormError.ParentStatus"
+                                             class="invalid-feedback">
+                                            {{err}}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 col-md-12 col-lg-6">
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                                <span class="input-group-text"
+                                                      id="toplam-kardes-addon">
+                                                    Toplam Kardeş Sayısı
+                                                </span>
+                                        </div>
+                                        <input type="number" class="form-control" ng-class="{'is-invalid': aileFormError.BroSum}"
+                                               placeholder="Örn: 3"
+                                               name="BroSum"
+                                               aria-label="Toplam Kardeş Sayısı"
+                                               aria-describedby="toplam-kardes-addon"
+                                               max="99"
+                                               ng-model="aileFormData.BroSum">
+                                        <div class="input-group-append">
+                                                <span class="input-group-text alert-success"
+                                                      data-toggle="tooltip"
+                                                      data-placement="top"
+                                                      title="Siz Dahil">?</span>
+                                        </div>
+                                        <div ng-if="aileFormError.BroSum"
+                                             ng-repeat="err in aileFormError.BroSum"
+                                             class="invalid-feedback">
+                                            {{err}}
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 col-md-12 col-lg-6">
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                                <span class="input-group-text"
+                                                      id="toplam-okuyan-kardes-addon">
+                                                    Toplam Okuyan Kardeş Sayısı
+                                                </span>
+                                        </div>
+                                        <input type="number" class="form-control"
+                                               placeholder="Örn: 3"
+                                               name="BroSumStudy"
+                                               aria-label="Toplam Okuyan Kardeş Sayısı"
+                                               aria-describedby="toplam-okuyan-kardes-addon"
+                                               max="99"
+                                               ng-model="aileFormData.BroSumStudy">
+                                        <div class="input-group-append">
+                                                <span class="input-group-text alert-success"
+                                                      data-toggle="tooltip"
+                                                      data-placement="top"
+                                                      title="Siz Dahil">?</span>
+                                        </div>
+                                        <div ng-if="aileFormError.BroSumStudy"
+                                             ng-repeat="err in aileFormError.BroSumStudy"
+                                             class="invalid-feedback">
+                                            {{err}}
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 col-md-12 col-lg-6">
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                                <span class="input-group-text"
+                                                      id="aile-ile-evde-kalan-kardes-addon">
+                                                    Aile Yanında Kalan Kardeş Sayısı
+                                                </span>
+                                        </div>
+                                        <input type="number" class="form-control" ng-class="{'is-invalid': aileFormError.BroSumInParentHouse}"
+                                               placeholder="Örn: 3"
+                                               name="BroSumInParentHouse"
+                                               aria-label="Aile İle Kalan Kardeş Sayısı"
+                                               aria-describedby="aile-ile-evde-kalan-kardes-addon"
+                                               max="99"
+                                               ng-model="aileFormData.BroSumInParentHouse">
+                                        <div class="input-group-append">
+                                                <span class="input-group-text alert-success"
+                                                      data-toggle="tooltip"
+                                                      data-placement="top"
+                                                      title="Siz Dahil">?</span>
+                                        </div>
+                                        <div ng-if="aileFormError.BroSumInParentHouse"
+                                             ng-repeat="err in aileFormError.BroSumInParentHouse"
+                                             class="invalid-feedback">
+                                            {{err}}
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 col-md-12 col-lg-6">
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                                <span class="input-group-text"
+                                                      id="aile-sorumlu-addon">
+                                                    Aile'den Sorumlu Kişi
+                                                </span>
+                                        </div>
+                                        <input type="text" class="form-control" ng-class="{'is-invalid': aileFormError.ParentLeader}"
+                                               placeholder="Örn: Baba"
+                                               name="ParentLeader"
+                                               required ng-required="true"
+                                               aria-label="Aile'den Sorumlu Kişi"
+                                               aria-describedby="aile-sorumlu-addon"
+                                               ng-model="aileFormData.ParentLeader">
+                                        <div ng-if="aileFormError.ParentLeader"
+                                             ng-repeat="err in aileFormError.ParentLeader"
+                                             class="invalid-feedback">
+                                            {{err}}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 col-md-12 col-lg-6">
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                                <span class="input-group-text"
+                                                      id="aile-sorumlu-toplam-addon">
+                                                    Bakmakla Yükümlü Olduğu Kişi Sayısı
+                                                </span>
+                                        </div>
+                                        <input type="number" class="form-control" ng-class="{'is-invalid': aileFormError.ParentLeaderRespPersonSum}"
+                                               placeholder="Örn: 3"
+                                               name="ParentLeaderRespPersonSum"
+                                               required ng-required="true"
+                                               aria-label="Aile'den Sorumlu Kişinin Bakmakta Olduğu Kişi Sayısı"
+                                               aria-describedby="aile-sorumlu-toplam-addon"
+                                               max="99"
+                                               ng-model="aileFormData.ParentLeaderRespPersonSum">
+                                        <div class="input-group-append">
+                                                <span class="input-group-text alert-success"
+                                                      data-toggle="tooltip"
+                                                      data-placement="top"
+                                                      title="Aileden Sorumlu Kişinin Bakmakla Yükümlü Olduğu Kişi Sayısı (Siz Dahil)">?</span>
+                                        </div>
+                                        <div ng-if="aileFormError.ParentLeaderRespPersonSum"
+                                             ng-repeat="err in aileFormError.ParentLeaderRespPersonSum"
+                                             class="invalid-feedback">
+                                            {{err}}
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 col-md-12 col-lg-12">
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <div class="input-group-text">
+                                                <input name="ContractIsAccepted" ng-class="{'is-invalid': aileFormError.ContractIsAccepted}"
+                                                       required ng-required="true"
+                                                       type="checkbox"
+                                                       ng-model="aileFormData.ContractIsAccepted">
+                                                <div ng-if="aileFormError.ContractIsAccepted"
+                                                     ng-repeat="err in aileFormError.ContractIsAccepted"
+                                                     class="invalid-feedback">
+                                                    {{err}}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <textarea
+                                                style="resize: none; font-size: small;"
+                                                disabled
+                                                class="form-control small"
+                                        >Bu formda verdiğim bütün bilgilerin doğruluğunu yanlış, eksik veya yalan beyan verdiğim taktirde hakkımda yapılacak her türlü işlemin sorumluluğunu kabul ediyor ve bursumun derhal kesileceğini biliyorum.</textarea>
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-12 col-md-12 col-lg-12">
+                                    <div class="float-right mb-3">
+                                        <button ng-if="!recordIsExist" ng-disabled="aileForm.$invalid" type="submit" class="btn btn-success">Devam Et</button>
+                                        <button ng-if="recordIsExist" ng-disabled="aileForm.$invalid" type="submit" class="btn btn-info">Güncelle</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(function () {
+        $('#sidebarCollapse').on('click', function () {
+            $('#sidebar').toggleClass('active');
+        });
+        $('[data-toggle="tooltip"]').tooltip();
+        $('.selectpicker').selectpicker();
+        $('select').change(function () {
+            $('.selectpicker').selectpicker('refresh');
+        })
+    })
+</script>

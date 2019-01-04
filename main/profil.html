@@ -1,0 +1,164 @@
+<div ng-controller="ProfilCtrl" ng-if="isLoggedIn">
+  <ng-include src="'main/navbar.html'"></ng-include>
+  <div class="row marg-top-20 hakkimizda">
+    <div class="col-md-12 col-sm-12 col-lg-10 offset-lg-1">
+      <div class="jumbotron jumbotron-fluid">
+        <div class="container">
+          <h4 class="text-center">Profil Bilgilerim</h4>
+          <form id="profil-form" name="profilForm" class="mt-4" ng-submit="profilForm.$valid && profilSbmt($event);">
+            <div class="row">
+              <div class="col-sm-12 col-md-12 col-lg-6">
+                <div class="input-group mb-3">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text" id="ad-addon">Ad</span>
+                  </div>
+                  <input type="text" class="form-control" ng-class="{'is-invalid': profilFormError.Name}"
+                         placeholder="Örn: Ali"
+                         aria-label="Ad" aria-describedby="ad-addon" name="Name" required
+                         ng-model="profilFormData.Name" ng-required="true">
+                  <div ng-if="profilFormError.Name" ng-repeat="err in profilFormError.Name" class="invalid-feedback">
+                    {{err}}
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-12 col-md-12 col-lg-6">
+                <div class="input-group mb-3">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text" id="soyad-addon">Soyad</span>
+                  </div>
+                  <input type="text" class="form-control" ng-class="{'is-invalid': profilFormError.Surname}"
+                         placeholder="Örn: Yılmaz"
+                         aria-label="Soyad"
+                         aria-describedby="soyad-addon" name="Surname" required
+                         ng-model="profilFormData.Surname" ng-required="true">
+                  <div ng-if="profilFormError.Surname" ng-repeat="err in profilFormError.Surname" class="invalid-feedback">
+                    {{err}}
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-12 col-md-12 col-lg-6">
+                <div class="input-group mb-3">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text" id="Email-addon">E-Posta</span>
+                  </div>
+                  <input type="text" class="form-control" ng-class="{'is-invalid': profilFormError.Email}" placeholder="Örn: info@gursoyvakfi.org"
+                         aria-label="E-Posta"
+                         aria-describedby="Email-addon" name="Email"
+                         ng-model="profilFormData.Email">
+                  <div class="input-group-append">
+                       <span class="input-group-text alert-success"
+                             data-toggle="tooltip"
+                             data-placement="top"
+                             title="Değiştirdiğiniz takdirde girmiş olduğunuz e-posta adresine onay linki gönderilecektir.">?</span>
+                  </div>
+                  <div ng-if="profilFormError.Email" ng-repeat="err in profilFormError.Email" class="invalid-feedback">
+                    {{err}}
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-12 col-md-12 col-lg-6">
+                <div class="input-group mb-3">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text" id="telno-addon">Telefon No</span>
+                  </div>
+                  <input type="text" class="form-control" ng-class="{'is-invalid': profilFormError.TelNo}"
+                         placeholder="Örn: (537)-457-87-77." aria-label="Telefon No"
+                         aria-describedby="telno-addon" name="TelNo" mask="(999)-999-99-99" clean="true"
+                         ng-model="profilFormData.TelNo">
+                  <div ng-if="profilFormError.TelNo" ng-repeat="err in profilFormError.TelNo" class="invalid-feedback">
+                    {{err}}
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-12 col-md-12 col-lg-12">
+                <div class="input-group mb-3">
+                  <div class="input-group-prepend">
+                    <div class="input-group-text">
+                      <input type="checkbox" name="ContractIsAccepted" required ng-model="profilFormData.ContractIsAccepted" ng-required="true">
+                    </div>
+                  </div>
+                  <textarea ng-class="{'is-invalid': profilFormError.ContractIsAccepted}"
+                            style="resize: none; font-size: small;"
+                            disabled
+                            class="form-control small"
+                  >Bu formda verdiğim bütün bilgilerin doğruluğunu yanlış, eksik veya yalan beyan verdiğim taktirde hakkımda yapılacak her türlü işlemin sorumluluğunu kabul ediyor ve bursumun derhal kesileceğini biliyorum.</textarea>
+                  <div ng-if="profilFormError.ContractIsAccepted" ng-repeat="err in profilFormError.ContractIsAccepted" class="invalid-feedback">
+                    {{err}}
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-12 col-md-12 col-lg-12">
+                <button ng-disabled="profilForm.$invalid" type="submit" class="btn btn-success float-right">Güncelle</button>
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="container">
+          <h4 class="text-center">Şifre Bilgilerim</h4>
+          <form id="sifre-form" name="sifreForm" class="mt-4" ng-submit="sifreForm.$valid && passwordSbmt($event)">
+            <div class="row">
+              <div class="col-sm-12 col-md-12 col-lg-12">
+                <div class="input-group mb-3">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text" id="sifre-addon">Şifreniz</span>
+                  </div>
+                  <input type="password" class="form-control" placeholder="Kullanmakta olduğunuz şifrenizi giriniz."
+                         ng-class="{'is-invalid': sifreFormError.Password}"
+                         aria-label="Ad" aria-describedby="sifre-addon" name="Password" required
+                         ng-model="sifreFormData.Password" ng-required="true">
+                  <div ng-if="sifreFormError.Password" ng-repeat="err in sifreFormError.Password" class="invalid-feedback">
+                    {{err}}
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-12 col-md-12 col-lg-6">
+                <div class="input-group mb-3">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text" id="yeni-sifre-addon">Yeni Şifre</span>
+                  </div>
+                  <input type="password" class="form-control" placeholder="Yeni şifrenizi giriniz."
+                         ng-class="{'is-invalid': sifreFormError.NewPassword || sifreFormData.NewPassword != sifreFormData.ReNewPassword}"
+                         aria-label="Yeni Şifre"
+                         aria-describedby="yeni-sifre-addon" name="Surname" required
+                         ng-model="sifreFormData.NewPassword" ng-required="true">
+                  <div ng-if="sifreFormError.NewPassword" ng-repeat="err in sifreFormError.NewPassword" class="invalid-feedback">
+                    {{err}}
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-12 col-md-12 col-lg-6">
+                <div class="input-group mb-3">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text" id="yeni-sifre-tekrar-addon">Yeni Şifre Tekrar</span>
+                  </div>
+                  <input type="password" class="form-control" placeholder="Yeni şifrenizi tekrar giriniz."
+                         ng-class="{'is-invalid': sifreFormError.ReNewPassword || sifreFormData.NewPassword != sifreFormData.ReNewPassword}"
+                         aria-label="Yeni Şifre Tekrar"
+                         aria-describedby="Email-addon" name="ReNewPassword" required
+                         ng-model="sifreFormData.ReNewPassword" ng-required="true">
+                  <div ng-if="sifreFormError.ReNewPassword" ng-repeat="err in sifreFormError.ReNewPassword" class="invalid-feedback">
+                    {{err}}
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-12 col-md-12 col-lg-12">
+                <button ng-disabled="sifreForm.$invalid || sifreFormData.NewPassword != sifreFormData.ReNewPassword"
+                        type="submit" class="btn btn-success float-right">Güncelle
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#sidebarCollapse').on('click', function () {
+            $('#sidebar').toggleClass('active');
+        });
+        $('[data-toggle="tooltip"]').tooltip();
+    });
+</script>

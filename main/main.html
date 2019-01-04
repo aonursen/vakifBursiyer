@@ -1,0 +1,57 @@
+<div ng-controller="MainCtrl">
+  <ng-include src="'main/navbar.html'"></ng-include>
+  <div class="row">
+    <div class="col-md-12 col-sm-12 col-lg-8 offset-lg-2">
+      <div id="carouselSlide" class="carousel slide" data-ride="carousel">
+        <div class="carousel-inner">
+          <div class="carousel-item active">
+            <img class="d-block w-100"
+                 data-src="holder.js/800x400?auto=yes&amp;bg=666&amp;fg=444&amp;text=Görsel 1 \n 1076x538"
+                 alt="First slide">
+          </div>
+          <div class="carousel-item">
+            <img class="d-block w-100"
+                 data-src="holder.js/800x400?auto=yes&amp;bg=666&amp;fg=444&amp;text=Görsel 2 \n 1076x538"
+                 alt="Second slide">
+          </div>
+          <div class="carousel-item">
+            <img class="d-block w-100"
+                 data-src="holder.js/800x400?auto=yes&amp;bg=666&amp;fg=444&amp;text=Görsel 3 \n 1076x538"
+                 alt="Third slide">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row marg-top-20">
+    <div class="col-md-12 col-sm-12 col-lg-8 offset-lg-2">
+      <div class="jumbotron jumbotron-fluid">
+        <div class="container">
+          <h4 class="text-center">Gürsoy Vakfı Hakkında</h4>
+          <p class="lead">
+            Vakıf kültürü ile kurulan ve idame ettirilen kadim medeniyetimizin değerler hazinesini bu güne ve yarına
+            taşımak
+            için 2015 yılında faaliyete geçen Gürsoy Vakfı, vakıf bilincinin doğurduğu sorumluluk ile insan odaklı
+            hizmetlere talip olmaktadır.
+            Amacımız nesillerimizin teminatı durumundaki gençlerimize destek olarak eğitimlerine destek sağlamak, ve
+            toplumun eğitim seviyesini yükselterek milletimize ve tüm Dünya’ya değer kazandıracak insanlar
+            yetiştirmektir.
+            İnsanoğlunun sahip olduğu...
+          </p>
+          <button class="btn btn-success float-right" ui-sref="hakkimizda">Devamını Oku</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/holder/2.9.6/holder.min.js"></script>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#sidebarCollapse').on('click', function () {
+            $('#sidebar').toggleClass('active');
+        });
+    });
+</script>
